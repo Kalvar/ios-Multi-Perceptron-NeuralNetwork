@@ -28,6 +28,7 @@ If you need help to know how to use this network, just ask me via email.
     /*
      * @ 各輸入向量陣列值 & 每一筆輸入向量的期望值( 輸出期望 )
      */
+    //Input Nets 1, 2, 3, 4
     //Input Pattern 1, Output Goal of Input Pattern 1
     [_krBPN addPatterns:@[@1, @2, @0.5, @1.2] outputGoal:1.0f];
     
@@ -58,13 +59,13 @@ If you need help to know how to use this network, just ask me via email.
     [_krBPN addHiddenLayerAtIndex:0 netBias:-0.4 netWeights:@[@-0.3, @0.2, @0.15]];
     [_krBPN addHiddenLayerAtIndex:0 netBias:0.2 netWeights:@[@-0.2, @0.5, @0.35]];
     
-    //Net 7, Net 8
+    //Net 7, Net 8, Net 9
     //第 2 層
     [_krBPN addHiddenLayerAtIndex:1 netBias:0.3 netWeights:@[@-0.5, @0.1]];
     [_krBPN addHiddenLayerAtIndex:1 netBias:0.7 netWeights:@[@0.2, @0.4]];
     [_krBPN addHiddenLayerAtIndex:1 netBias:0.2 netWeights:@[@-0.2, @0.5]];
     
-    //Net 9, Net 10
+    //Net 10, Net 11
     //第 3 層 (單 Output，最後的 netWeights 只需設 1 組，設多組則為多 Output Results)
     [_krBPN addHiddenLayerAtIndex:2 netBias:-0.2 netWeights:@[@0.3]];
     [_krBPN addHiddenLayerAtIndex:2 netBias:0.25 netWeights:@[@0.2]];
