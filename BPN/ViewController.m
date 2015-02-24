@@ -1,16 +1,15 @@
-ios-Multi-Perception-NeuralNetwork
-=================
+//
+//  ViewController.m
+//  BPN V2.0
+//
+//  Created by Kalvar on 13/6/28.
+//  Copyright (c) 2013 - 2015年 Kuo-Ming Lin (Kalvar Lin, ilovekalvar@gmail.com). All rights reserved.
+//
 
-This neural network (NN) named Back Propagation Neural Networks (BPN) which used EBP algorithm to be the core design. It be designed multi hidden layers to join the training tasks and leave some flexible space to wait for enhance with Fuzzy theory in neurals. This NN can use in the recommendation, behavior analysis, data mining and data analysis (DA) especially DA is the better of application.
-
-This project designed for mobile device perform the basic data analysis, it has a not bad performance in training the patterns. 1 generation only needs < 10 ms to training.
-
-If you need help to know how to use this network, just ask me via email.
-
-``` objective-c
+#import "ViewController.h"
 #import "KRBPN.h"
 
-@interface ViewController ()
+@interface ViewController ()<KRBPNDelegate>
 
 @property (nonatomic, strong) KRBPN *_krBPN;
 
@@ -22,7 +21,9 @@ If you need help to know how to use this network, just ask me via email.
 
 - (void)viewDidLoad
 {
-    _krBPN          = [KRBPN sharedNetwork];
+    [super viewDidLoad];
+    
+	_krBPN          = [KRBPN sharedNetwork];
     //_krBPN.delegate = self;
     
     /*
@@ -57,6 +58,7 @@ If you need help to know how to use this network, just ask me via email.
     //第 1 層, 隱藏層神經元 Net 4 的偏權值, 隱藏層神經元 Net 4 到下一層神經元的權重值
     [_krBPN addHiddenLayerAtIndex:0 netBias:-0.4 netWeights:@[@-0.3, @0.2, @0.15]];
     [_krBPN addHiddenLayerAtIndex:0 netBias:0.2 netWeights:@[@-0.2, @0.5, @0.35]];
+    //[_krBPN addHiddenLayerAtIndex:0 netBias:0.2 netWeights:@[@-0.2, @0.5, @0.2]];
     
     //Net 7, Net 8
     //第 2 層
@@ -68,7 +70,12 @@ If you need help to know how to use this network, just ask me via email.
     //第 3 層 (單 Output，最後的 netWeights 只需設 1 組，設多組則為多 Output Results)
     [_krBPN addHiddenLayerAtIndex:2 netBias:-0.2 netWeights:@[@0.3]];
     [_krBPN addHiddenLayerAtIndex:2 netBias:0.25 netWeights:@[@0.2]];
+    //[_krBPN addHiddenLayerAtIndex:2 netBias:0.15 netWeights:@[@0.25]];
     
+    //NSLog(@"_krBPN.hiddenLayers : %@", _krBPN.hiddenLayers);
+    
+    //有幾顆隱藏層的神經元 ( 不用外部設定，由偏權值數目自動設定 )
+    //_krBPN.countHiddens;
     //輸出層神經元偏權值, Net 6 for output
     _krBPN.outputBias       = 0.1f;
     //學習速率
@@ -92,9 +99,17 @@ If you need help to know how to use this network, just ask me via email.
     {
         if( success )
         {
+            /*
+            if( !_weakKrBPN.trainedNetwork )
+            {
+                [_weakKrBPN saveTrainedNetwork];
+            }
+             */
+            
             NSLog(@"Training done with total times : %i", totalTimes);
             NSLog(@"TrainedInfo 1 : %@", trainedInfo);
             
+            ///*
             //Start in checking the network is correctly trained.
             NSLog(@"======== Start in Verification ========");
             [_weakKrBPN setTrainingCompletion:^(BOOL success, NSDictionary *trainedInfo, NSInteger totalTimes)
@@ -108,7 +123,7 @@ If you need help to know how to use this network, just ask me via email.
                                  @[@0, @-1, @2, @0.1],
                                  nil];
             [_weakKrBPN useTrainedNetworkToOutput];
-            
+            //*/
         }
     }];
     
@@ -155,18 +170,27 @@ If you need help to know how to use this network, just ask me via email.
     //To remove the saved trained-network.
     //[_krBPN removeTrainedNetwork];
 }
+
+- (void)didReceiveMemoryWarning
+
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma --mark KRBPNDelegate
+/*
+-(void)krBPNDidTrainFinished:(KRBPN *)krBPN trainedInfo:(NSDictionary *)trainedInfo totalTimes:(NSInteger)totalTimes
+{
+    NSLog(@"Use trained-network to direct output : %@", krBPN.outputResults);
+}
+
+-(void)krBPNEachGeneration:(KRBPN *)krBPN trainedInfo:(NSDictionary *)trainedInfo times:(NSInteger)times
+{
+    NSLog(@"Generation times : %i", times);
+}
+ */
+
+
 @end
-```
-
-## Version
-
-V2.0
-
-## License
-
-MIT.
-
-## Remarks
-
-About the user guide, I have no time to write the user and technical guide in here. Maybe one day I take a long term vacations, the guide will be implemented.
 
