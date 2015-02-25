@@ -1,7 +1,7 @@
-ios-Multi-Perception-NeuralNetwork
+ios-Multi-Perceptron-NeuralNetwork
 =================
 
-This neural network (NN) named Back Propagation Neural Networks (BPN) which used EBP algorithm to be the core design. It be designed multi hidden layers to join the training tasks and leave some flexible space to wait for enhance with Fuzzy theory in neurals. This NN can use in the recommendation, behavior analysis, data mining and data analysis (DA) especially DA is the better of application.
+This multi perceptrons neural network (NN) named Back Propagation Neural Networks (BPN) which used EBP algorithm to be the core design. It be designed multi hidden layers to join the training tasks and leave some flexible space to wait for enhance with Fuzzy theory in neurals. This NN can use in the recommendation, behavior analysis, data mining and data analysis (DA) especially DA is the better of application.
 
 This project designed for mobile device perform the basic data analysis, it has a not bad performance in training the patterns. 1 generation only needs < 10 ms to training.
 
@@ -169,5 +169,6 @@ MIT.
 
 ## Remarks
 
-About the user guide, I have no time to write the user and technical guide in here. Maybe one day I take a long term vacations, the guide will be implemented.
+1. About the user guide, I have no time to write the user and technical guide in here. Maybe one day I take a long term vacations, the guide will be implemented.
 
+2. If you wanna use this NN to do something, please try to help others person when they need to grown up via the technical help of NN. :-)

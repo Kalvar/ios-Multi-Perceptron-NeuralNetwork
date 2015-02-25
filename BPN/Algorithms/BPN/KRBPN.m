@@ -99,7 +99,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     
     self.hiddenLayers        = [NSMutableArray new];
     
-    self.countHiddenLayers     = 0;
+    self.countHiddenLayers   = 0;
     self.outputBias          = 0.1f;
     self.outputGoals         = [NSMutableArray new];
     self.learningRate        = 0.8f;
@@ -1744,6 +1744,10 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 //計算 Input Layer 的 Nets 有幾顆
 -(NSInteger)countInputNets
 {
+    if( !_inputs )
+    {
+        return 0; //-1;
+    }
     return [[_inputs firstObject] count];
 }
 
