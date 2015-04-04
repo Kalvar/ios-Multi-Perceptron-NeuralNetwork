@@ -140,14 +140,14 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     if( self._isDoneSave )
     {
         self._isDoneSave = NO;
-        [self saveTrainedNetwork];
+        [self saveNetwork];
     }
     
     if( self.delegate )
     {
         if( [self.delegate respondsToSelector:@selector(krBPNDidTrainFinished:trainedInfo:totalTimes:)] )
         {
-            [self.delegate krBPNDidTrainFinished:self trainedInfo:self.trainedInfo totalTimes:self.trainingGeneration];
+            [self.delegate krBpnDidTrainFinished:self trainedInfo:self.trainedInfo totalTimes:self.trainingGeneration];
         }
     }
     
@@ -163,7 +163,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     {
         if( [self.delegate respondsToSelector:@selector(krBPNEachGeneration:trainedInfo:times:)] )
         {
-            [self.delegate krBPNEachGeneration:self trainedInfo:self.trainedInfo times:self.trainingGeneration];
+            [self.delegate krBpnEachGeneration:self trainedInfo:self.trainedInfo times:self.trainingGeneration];
         }
     }
     
@@ -274,6 +274,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  * @ 先針對 Output Goals 輸出期望值集合做資料正規化
  *   - 以免因為少設定映射的期望結果而 Crash
  */
+//TODO :
 -(void)_formatOutputGoals
 {
     NSInteger _goalCount  = [self.outputGoals count];
@@ -1068,6 +1069,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     return _onePatternTrained;
 }
 
+//TODO :
 //公式化訓練用的期望值
 -(void)_formatMaxMultiple
 {
@@ -1117,6 +1119,8 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
         //不論正負號都先轉成絕對值，我只要求得除幾位數變成小數點
         //NSLog(@"%i", (int)log10f(-81355.555)); //-2147483648
         //NSLog(@"%i", (int)log10f(81355.555)); //4 個 10 倍
+        
+        //TODO :
         self._goalValue     = [[self.outputGoals objectAtIndex:self._patternIndex] doubleValue] / self._maxMultiple;
         self._hiddenOutputs = [self _sumHiddenLayerNetWeightsFromInputs:_inputs];
         //NSLog(@"\n\n_goalValue : %lf, _hiddenOutputs : %@\n\n\n", self._goalValue, self._hiddenOutputs);
@@ -1257,6 +1261,8 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 -(void)addPatterns:(NSArray *)_patterns outputGoal:(float)_goal
 {
     [_inputs addObject:_patterns];
+    
+//TODO :
     [_outputGoals addObject:[NSNumber numberWithFloat:_goal]];
 }
 
@@ -1472,6 +1478,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     //Hidden Layers
     [self randomHiddenLayerWeightsWithTotalLayers:[self evaluateHiddenLayerNumbers]];
     
+//TODO :
     //輸出層神經元的偏權值
     _outputBias   = [self _randomMax:1.0f min:-1.0f];
     
@@ -1494,7 +1501,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  * @ Start Training BPN
  *   - And it'll auto save the trained-network when it finished.
  */
--(void)trainingDoneSave
+-(void)trainingSave
 {
     [self _trainingWithExtraSetupHandler:^
     {
@@ -1506,7 +1513,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  * @ Start Training BPN
  *   - It'll random setup all weights and biases.
  */
--(void)trainingWithRandom
+-(void)trainingRandom
 {
     [self randomWeights];
     [self training];
@@ -1516,7 +1523,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  * @ Start Training BPN
  *   - It'll random setup all weights and biases, then it'll auto save the trained-network when it finished.
  */
--(void)trainingWithRandomAndSave
+-(void)trainingRandomAndSave
 {
     self._isDoneSave = YES;
     [self randomWeights];
@@ -1559,7 +1566,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  * @ 
  *   - 單純使用訓練好的網路作輸出，不跑導傳遞的訓練方法
  */
--(void)useTrainedNetworkToOutput
+-(void)directOutput
 {
     NSArray *_trainInputs  = [_inputs firstObject];
     dispatch_queue_t queue = dispatch_queue_create("com.krbpn.trained-network", NULL);
@@ -1589,7 +1596,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  *   - 儲存訓練後的 BPN Network 至 NSUserDefaults
  *   - 同時會保存原訓練的所有 I/O 數據資料
  */
--(void)saveTrainedNetwork
+-(void)saveNetwork
 {
     //Does it need to use the [copy] method to copy the whole memory and data into the _bpnNetwork to save in NSUserDefaults ?
     KRBPNTrainedNetwork *_bpnNetwork = [[KRBPNTrainedNetwork alloc] init];
@@ -1606,7 +1613,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     _bpnNetwork.fOfAlpha             = _fOfAlpha;
     _bpnNetwork.limitGeneration      = _limitGeneration;
     _bpnNetwork.trainingGeneration   = _trainingGeneration;
-    [self removeTrainedNetwork];
+    [self removeNetwork];
     _trainedNetwork                  = _bpnNetwork;
     [NSUserDefaults saveTrainedNetwork:_bpnNetwork forKey:_kTrainedNetworkInfo];
 }
@@ -1614,7 +1621,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 /*
  * @ Remove the saved trained-netrowk
  */
--(void)removeTrainedNetwork
+-(void)removeNetwork
 {
     [NSUserDefaults removeValueForKey:_kTrainedNetworkInfo];
     _trainedNetwork = nil;
@@ -1624,7 +1631,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  * @ Recovers trained-network data
  *   - 復原訓練過的 BPN Network 數據資料
  */
--(void)recoverTrainedNetwork:(KRBPNTrainedNetwork *)_recoverNetwork
+-(void)recoverNetwork:(KRBPNTrainedNetwork *)_recoverNetwork
 {
     if( _recoverNetwork )
     {
@@ -1643,7 +1650,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
             _fOfAlpha           = _recoverNetwork.fOfAlpha;
             _limitGeneration    = _recoverNetwork.limitGeneration;
             _trainingGeneration = _recoverNetwork.trainingGeneration;
-            [self removeTrainedNetwork];
+            [self removeNetwork];
             _trainedNetwork     = _recoverNetwork;
             [NSUserDefaults saveTrainedNetwork:_trainedNetwork forKey:_kTrainedNetworkInfo];
         });
@@ -1654,10 +1661,10 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  * @ Recovers saved trained-network of BPN
  *   - 復原已儲存的訓練過的 BPN Network 數據資料
  */
--(void)recoverTrainedNetwork
+-(void)recoverNetwork
 {
     //[self recoverTrainedNetwork:_trainedNetwork];
-    [self recoverTrainedNetwork:self.trainedNetwork];
+    [self recoverNetwork:self.trainedNetwork];
 }
 
 #pragma --mark Blocks

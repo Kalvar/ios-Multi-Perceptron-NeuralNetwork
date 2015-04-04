@@ -119,29 +119,29 @@
                 NSLog(@"TrainedInfo 2 : %@", trainedInfo);
             }];
             
-            [_weakKrBPN recoverTrainedNetwork];
+            [_weakKrBPN recoverNetwork];
             _weakKrBPN.inputs = [NSMutableArray arrayWithObjects:
                                  @[@0, @-1, @2, @0.1],
                                  nil];
-            [_weakKrBPN useTrainedNetworkToOutput];
+            [_weakKrBPN directOutput];
             //*/
         }
     }];
     
     //Remove your testing trained-network records.
-    //[_krBPN removeTrainedNetwork];
+    //[_krBPN removeNetwork];
     
     //Start the training, and random the weights, biases, if you use this method that you won't need to setup any weights and biases before.
     //Random means let network to auto setup inputWeights, hiddenBiases, hiddenWeights values.
-    //[_krBPN trainingWithRandom];
+    //[_krBPN trainingRandom];
     //As above said, then it will be saved the trained network after done.
-    //[_krBPN trainingWithRandomAndSave];
+    //[_krBPN trainingRandomAndSave];
     
     //Start the training network, and it won't be saving the trained-network when finished.
     [_krBPN training];
     
     //Start the training network, and it will auto-saving the trained-network when finished.
-    //[_krBPN trainingDoneSave];
+    //[_krBPN trainingSave];
     
     //If you wanna pause the training.
     //[_krBPN pause];
@@ -153,10 +153,10 @@
     //[_krBPN reset];
     
     //When the training finished, to save the trained-network into NSUserDefaults.
-    //[_krBPN saveTrainedNetwork];
+    //[_krBPN saveNetwork];
     
     //If you wanna recover the trained-network data.
-    //[_krBPN recoverTrainedNetwork];
+    //[_krBPN recoverNetwork];
     //Or you wanna use the KRBPNTrainedNetwork object to recover the training data.
     /*
     KRBPNTrainedNetwork *_trainedNetwork = [[KRBPNTrainedNetwork alloc] init];
@@ -165,11 +165,11 @@
                               @[@0],
                               @[@1],
                               nil];
-    [_krBPN recoverTrainedNetwork:_trainedNetwork];
+    [_krBPN recoverNetwork:_trainedNetwork];
     */
     
     //To remove the saved trained-network.
-    //[_krBPN removeTrainedNetwork];
+    //[_krBPN removeNetwork];
 }
 
 - (void)didReceiveMemoryWarning

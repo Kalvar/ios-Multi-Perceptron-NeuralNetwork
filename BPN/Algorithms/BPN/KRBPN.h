@@ -5,10 +5,11 @@
 //  Created by Kalvar on 13/6/28.
 //  Copyright (c) 2013 - 2015年 Kuo-Ming Lin (Kalvar Lin, ilovekalvar@gmail.com). All rights reserved.
 //
+
 /*
- * @ 3 層架構
+ * @ N 層架構
  *   - 輸入層
- *   - 隱藏層
+ *   - 隱藏層 x N
  *   - 輸出層
  */
 #import <Foundation/Foundation.h>
@@ -22,6 +23,7 @@
  * @ 訓練完成時
  *   - success     : 是否訓練成功
  *   - trainedInfo : 訓練後的 Network 資料
+ *   - totalTimes  : 共訓練幾次即達到收斂
  */
 typedef void(^KRBPNTrainingCompletion)(BOOL success, NSDictionary *trainedInfo, NSInteger totalTimes);
 
@@ -124,19 +126,19 @@ static NSString *KRBPNTrainedInfoTrainedGeneration = @"KRBPNTrainedInfoTrainedGe
 
 #pragma --mark Training Public Methods
 -(void)training;
--(void)trainingDoneSave;
--(void)trainingWithRandom;
--(void)trainingWithRandomAndSave;
+-(void)trainingSave;
+-(void)trainingRandom;
+-(void)trainingRandomAndSave;
 -(void)pause;
 -(void)continueTraining;
 -(void)reset;
--(void)useTrainedNetworkToOutput;
+-(void)directOutput;
 
 #pragma --mark Trained Network Public Methods
--(void)saveTrainedNetwork;
--(void)removeTrainedNetwork;
--(void)recoverTrainedNetwork:(KRBPNTrainedNetwork *)_recoverNetworks;
--(void)recoverTrainedNetwork;
+-(void)saveNetwork;
+-(void)removeNetwork;
+-(void)recoverNetwork:(KRBPNTrainedNetwork *)_recoverNetworks;
+-(void)recoverNetwork;
 
 #pragma --mark Blocks
 -(void)setTrainingCompletion:(KRBPNTrainingCompletion)_theBlock;
@@ -147,7 +149,7 @@ static NSString *KRBPNTrainedInfoTrainedGeneration = @"KRBPNTrainedInfoTrainedGe
 @protocol KRBPNDelegate <NSObject>
 
 @optional
--(void)krBPNDidTrainFinished:(KRBPN *)krBPN trainedInfo:(NSDictionary *)trainedInfo totalTimes:(NSInteger)totalTimes;
--(void)krBPNEachGeneration:(KRBPN*)krBPN trainedInfo:(NSDictionary *)trainedInfo times:(NSInteger)times;
+-(void)krBpnDidTrainFinished:(KRBPN *)krBPN trainedInfo:(NSDictionary *)trainedInfo totalTimes:(NSInteger)totalTimes;
+-(void)krBpnEachGeneration:(KRBPN*)krBPN trainedInfo:(NSDictionary *)trainedInfo times:(NSInteger)times;
 
 @end
