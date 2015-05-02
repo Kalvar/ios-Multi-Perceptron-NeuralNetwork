@@ -1,6 +1,6 @@
 //
 //  KRBPNTrainedNetwork.m
-//  BPN V2.0
+//  BPN V2.1
 //
 //  Created by Kalvar on 2014/5/22.
 //  Copyright (c) 2014 - 2015年 Kuo-Ming Lin (Kalvar Lin, ilovekalvar@gmail.com). All rights reserved.
@@ -45,7 +45,7 @@
 @synthesize hiddenLayers       = _hiddenLayers;
 @synthesize allHiddenWeights   = _allHiddenWeights;
 @synthesize allHiddenBiases    = _allHiddenBiases;
-@synthesize outputBias         = _outputBias;
+@synthesize outputBiases       = _outputBiases;
 @synthesize outputResults      = _outputResults;
 @synthesize outputGoals        = _outputGoals;
 @synthesize learningRate       = _learningRate;
@@ -88,7 +88,7 @@
     [self _encodeObject:_allHiddenWeights forKey:@"allHiddenWeights"];
     [self _encodeObject:_allHiddenBiases forKey:@"allHiddenBiases"];
     
-    [self _encodeDouble:_outputBias forKey:@"outputBias"];
+    [self _encodeObject:_outputBiases forKey:@"outputBiases"];
     [self _encodeObject:_outputResults forKey:@"outputResults"];
     [self _encodeObject:_outputGoals forKey:@"outputGoals"];
     
@@ -113,7 +113,7 @@
         _allHiddenWeights   = [aDecoder decodeObjectForKey:@"allHiddenWeights"];
         _allHiddenBiases    = [aDecoder decodeObjectForKey:@"allHiddenBiases"];
         
-        _outputBias         = [aDecoder decodeDoubleForKey:@"outputBias"];
+        _outputBiases       = [aDecoder decodeObjectForKey:@"outputBiases"];
         _outputResults      = [aDecoder decodeObjectForKey:@"outputResults"];
         _outputGoals        = [aDecoder decodeObjectForKey:@"outputGoals"];
         
