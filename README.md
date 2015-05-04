@@ -297,6 +297,4 @@ MIT.
 
 ## Remarks
 
-1. About the user guide, I have no time to write the user and technical guide in here. Maybe one day I take a long term vacations, the guide will be implemented.
-
-2. If you wanna use this NN to do something, please try to help others person when they need to grown up via the technical help of NN. :-)
+About the user guide, I have no time to write the user and technical guide in here. Maybe one day I take a long term vacations, the guide will be implemented.
