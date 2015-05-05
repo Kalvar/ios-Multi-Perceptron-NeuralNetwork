@@ -1,6 +1,6 @@
 //
 //  KRBPN.m
-//  BPN V2.1
+//  BPN V2.1.1
 //
 //  Created by Kalvar on 13/6/28.
 //  Copyright (c) 2013 - 2015年 Kuo-Ming Lin (Kalvar Lin, ilovekalvar@gmail.com). All rights reserved.
@@ -383,7 +383,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  */
 -(float)_fOfSigmoid:(float)_x
 {
-    return ( 1 / ( 1 + powf(M_E, (-(self.fOfAlpha) * _x)) ) );
+    return ( 1.0f / ( 1 + powf(M_E, (-(self.fOfAlpha) * _x)) ) );
 }
 
 /*
@@ -392,8 +392,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  */
 -(float)_fOfTanh:(float)_x
 {
-    double e = M_E;
-    return ( powf(e, _x) - powf(e, -_x) ) / ( powf(e, _x) + powf(e, -_x) );
+    return ( 2.0f / ( 1 + powf(M_E, (-2.0f * _x)) ) ) - 1.0f;
 }
 
 /*
@@ -495,9 +494,9 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 }
 
 /*
- * @ 所有隱藏層的權重計算都在這裡完成，在這裡不斷遞迴運算每一個隱藏層
+ * @ 所有隱藏層的輸出都在這裡完成，在這裡不斷遞迴運算每一個隱藏層
  */
--(NSArray *)_sumHiddenLayerNetWeightsFromInputs:(NSArray *)_inputs
+-(NSArray *)_sumHiddenLayerOutputsFromInputs:(NSArray *)_inputs
 {
     //運算完成的 Nets
     NSMutableArray *_toOutputNets = [NSMutableArray new];
@@ -577,7 +576,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
                 NSNumber *_outputWeight  = [_weights objectAtIndex:_outputIndex];
                 _sumOfNet               += [[_lastHideOutputs objectAtIndex:_netIndex] floatValue] * [_outputWeight floatValue];
             }
-            _sumOfNet        += [_outputBias floatValue];
+            _sumOfNet        -= [_outputBias floatValue];
             float _netOutput  = [self _fOfX:_sumOfNet];
             [_fOfNets addObject:[NSNumber numberWithFloat:_netOutput]];
         }
@@ -867,6 +866,24 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     }
 }
 
+//均方誤差
+-(BOOL)_mse
+{
+    float _sumOutputError = 0.0f;
+    for( NSNumber *_outpurError in self._outputErrors )
+    {
+        //使用絕對值來做誤差比較
+        _sumOutputError += fabsf( [_outpurError floatValue] );
+    }
+    
+    //MSE
+    //_sumOutputError *= (1 / [self._outputErrors count]);
+    
+    //如果已達收斂誤差，就不再繼續訓練
+    return ( _sumOutputError <= self.convergenceError );
+    //return ( (_sumOutputError * _sumOutputError) <= self.convergenceError );
+}
+
 -(void)_startTraining
 {
     ++self.trainingGeneration;
@@ -882,7 +899,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
          *
          */
         self._goalValues    = [self.outputGoals objectAtIndex:self._patternIndex];
-        self._hiddenOutputs = [self _sumHiddenLayerNetWeightsFromInputs:_inputs];
+        self._hiddenOutputs = [self _sumHiddenLayerOutputsFromInputs:_inputs];
         //更新權重失敗，代表訓練異常，中止 !
         if ( ![self _refreshNetsWeights] )
         {
@@ -900,21 +917,8 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
         return;
     }
     
-    //檢查是否收斂
-    BOOL _isGoalError = NO;
-    for( NSNumber *_outpurError in self._outputErrors )
-    {
-        //使用絕對值來做誤差比較
-        float _resultError = fabsf( [_outpurError floatValue] );
-        //如果已達收斂誤差，就不再繼續訓練
-        if( _resultError <= self.convergenceError )
-        {
-            _isGoalError = YES;
-            break;
-        }
-    }
-    
-    if( _isGoalError )
+    //是否收斂
+    if( [self _mse] )
     {
         //達到收斂誤差值或出現異常狀況，即停止訓練
         [self _completedTraining];
@@ -1399,7 +1403,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
             //[self recoverTrainedNetwork];
             _limitGeneration    = 1;
             _trainingGeneration = _limitGeneration;
-            self._hiddenOutputs = [self _sumHiddenLayerNetWeightsFromInputs:_trainInputs];
+            self._hiddenOutputs = [self _sumHiddenLayerOutputsFromInputs:_trainInputs];
             self.outputResults  = [self _sumOutputLayerNetsValue];
             if( self.limitGeneration > 0 && self.trainingGeneration >= self.limitGeneration )
             {
