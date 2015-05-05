@@ -84,9 +84,9 @@
     //How many hidden layers
     _krBPN.hiddenLayerCount   = 0; //0 means let system decide the hidden layers number.
     
-    [_krBPN addPatterns:@[@1, @0.1, @0.5, @0.2] outputGoals:@[@0.7f]]; //Pattern 1, net 1, 2, 3, 4, and 1 output
+    [_krBPN addPatterns:@[@1, @0.1, @0.5, @0.2] outputGoals:@[@0.7f]];    //Pattern 1, net 1, 2, 3, 4, and 1 output
     [_krBPN addPatterns:@[@0, @-0.8, @0.3, @-0.9] outputGoals:@[@-0.1f]]; //Pattern 2, same as pattern 1
-    [_krBPN addPatterns:@[@1, @0.3, @0.1, @0.4] outputGoals:@[@0.9f]]; //Pattern 3, same as pattern 1
+    [_krBPN addPatterns:@[@1, @0.3, @0.1, @0.4] outputGoals:@[@0.9f]];    //Pattern 3, same as pattern 1
     
     __block typeof(_krBPN) _weakKrBPN = _krBPN;
     //訓練完成時( Training complete )
