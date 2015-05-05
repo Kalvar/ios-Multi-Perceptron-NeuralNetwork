@@ -79,6 +79,8 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 @property (nonatomic, assign) NSInteger _maxMultiple;
 //儲存要用於比較計算 _maxMultiple 值的所有 Target Outputs
 @property (nonatomic, strong) NSMutableArray *_compareTargets;
+//儲存每一次 訓練迭代裡的每一個輸出誤差值, for MSE / RMSE
+@property (nonatomic, strong) NSMutableArray *_patternErrors;
 //儲存每一個迭代的誤差總和
 //@property (nonatomic, strong) NSMutableArray *_iterationErrors;
 
@@ -133,7 +135,8 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     self._goalValues         = nil;
     self._originalParameters = [NSMutableDictionary new];
     self._compareTargets     = [NSMutableArray new];
-    //self._iterationErrors    = [NSMutableArray new];
+    self._patternErrors      = [NSMutableArray new];
+    //self._iterationErrors  = [NSMutableArray new];
     
 }
 
@@ -870,18 +873,35 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 -(BOOL)_mse
 {
     float _sumOutputError = 0.0f;
-    for( NSNumber *_outpurError in self._outputErrors )
+    for( NSNumber *_outpurError in self._patternErrors )
     {
         //使用絕對值來做誤差比較
-        _sumOutputError += fabsf( [_outpurError floatValue] );
+        _sumOutputError += [_outpurError floatValue];
     }
     
     //MSE
-    //_sumOutputError *= (1 / [self._outputErrors count]);
-    
+    _sumOutputError = _sumOutputError / ([self.inputs count] * [self.outputBiases count]);
+    //NSLog(@"mse sumOutputError : %f", _sumOutputError);
+    //NSLog(@"\n\n\n");
     //如果已達收斂誤差，就不再繼續訓練
     return ( _sumOutputError <= self.convergenceError );
-    //return ( (_sumOutputError * _sumOutputError) <= self.convergenceError );
+}
+
+//均方根誤差
+-(BOOL)_rmse
+{
+    float _sumOutputError = 0.0f;
+    for( NSNumber *_outpurError in self._patternErrors )
+    {
+        //使用絕對值來做誤差比較
+        _sumOutputError += [_outpurError floatValue];
+    }
+    
+    //RMSE
+    _sumOutputError = sqrtf(_sumOutputError / ([self.inputs count] * [self.outputBiases count]));
+    //NSLog(@"rmse sumOutputError : %f", _sumOutputError);
+    //NSLog(@"\n\n\n");
+    return ( _sumOutputError <= self.convergenceError );
 }
 
 -(void)_startTraining
@@ -917,8 +937,10 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
         return;
     }
     
+    BOOL _isDone = [self _mse];
+    [self._patternErrors removeAllObjects];
     //是否收斂
-    if( [self _mse] )
+    if( _isDone )
     {
         //達到收斂誤差值或出現異常狀況，即停止訓練
         [self _completedTraining];
@@ -1000,6 +1022,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 @synthesize _patternIndex;
 @synthesize _maxMultiple;
 @synthesize _compareTargets;
+@synthesize _patternErrors;
 
 +(instancetype)sharedNetwork
 {
