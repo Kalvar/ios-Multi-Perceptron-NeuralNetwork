@@ -295,7 +295,7 @@ This project designed for mobile device perform the basic data analysis. If you 
 
 ## Version
 
-V2.1.1
+V2.1.2
 
 ## License
 
