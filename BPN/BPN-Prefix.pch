@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'BPN' target in the 'BPN' project
+// Prefix header for all source files of the 'ANN' target in the 'ANN' project
 //
 
 #import <Availability.h>

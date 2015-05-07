@@ -1,20 +1,20 @@
 //
-//  KRBPNTrainedNetwork.m
-//  BPN V2.1.1
+//  KRANNTrainedNetwork.m
+//  ANN V2.1.3
 //
 //  Created by Kalvar on 2014/5/22.
 //  Copyright (c) 2014 - 2015年 Kuo-Ming Lin (Kalvar Lin, ilovekalvar@gmail.com). All rights reserved.
 //
 
-#import "KRBPNTrainedNetwork.h"
+#import "KRANNTrainedNetwork.h"
 
-@interface KRBPNTrainedNetwork ()
+@interface KRANNTrainedNetwork ()
 
 @property (nonatomic, weak) NSCoder *_coder;
 
 @end
 
-@implementation KRBPNTrainedNetwork (fixNSCodings)
+@implementation KRANNTrainedNetwork (fixNSCodings)
 
 -(void)_encodeObject:(id)_object forKey:(NSString *)_key
 {
@@ -38,7 +38,7 @@
 
 @end
 
-@implementation KRBPNTrainedNetwork
+@implementation KRANNTrainedNetwork
 
 @synthesize inputs             = _inputs;
 @synthesize inputWeights       = _inputWeights;
@@ -57,9 +57,9 @@
 +(instancetype)sharedNetwork
 {
     static dispatch_once_t pred;
-    static KRBPNTrainedNetwork *_object = nil;
+    static KRANNTrainedNetwork *_object = nil;
     dispatch_once(&pred, ^{
-        _object = [[KRBPNTrainedNetwork alloc] init];
+        _object = [[KRANNTrainedNetwork alloc] init];
     });
     return _object;
 }

@@ -1,13 +1,13 @@
 //
-//  KRBPN+NSUserDefaults.m
-//  BPN V2.1.1
+//  KRANN+NSUserDefaults.m
+//  ANN V2.1.3
 //
 //  Created by Kalvar on 2014/5/22.
 //  Copyright (c) 2014 - 2015年 Kuo-Ming Lin (Kalvar Lin, ilovekalvar@gmail.com). All rights reserved.
 //
 
-#import "KRBPN+NSUserDefaults.h"
-#import "KRBPNTrainedNetwork.h"
+#import "KRANN+NSUserDefaults.h"
+#import "KRANNTrainedNetwork.h"
 
 @implementation NSUserDefaults (ExtendUsages)
 
@@ -45,16 +45,16 @@
 }
 
 /*
- * @ 取出 BPN Network
+ * @ 取出 ANN Network
  */
-+(KRBPNTrainedNetwork *)trainedNetworkValueForKey:(NSString *)_key
++(KRANNTrainedNetwork *)trainedNetworkValueForKey:(NSString *)_key
 {
     NSData *_objectData = [self defaultValueForKey:_key];
     if( !_objectData )
     {
         return nil;
     }
-    return (KRBPNTrainedNetwork *)[NSKeyedUnarchiver unarchiveObjectWithData:_objectData];
+    return (KRANNTrainedNetwork *)[NSKeyedUnarchiver unarchiveObjectWithData:_objectData];
 }
 
 #pragma --mark Saves NSDefault Values
@@ -84,9 +84,9 @@
 }
 
 /*
- * @ 儲存訓練過後的 BPN Netrowk
+ * @ 儲存訓練過後的 ANN Netrowk
  */
-+(void)saveTrainedNetwork:(KRBPNTrainedNetwork *)_value forKey:(NSString *)_forKey
++(void)saveTrainedNetwork:(KRANNTrainedNetwork *)_value forKey:(NSString *)_forKey
 {
     if( _value )
     {

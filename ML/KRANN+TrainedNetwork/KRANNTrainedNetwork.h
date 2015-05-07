@@ -1,12 +1,12 @@
 //
-//  KRBPNTrainedNetwork.h
-//  BPN V2.1.1
+//  KRANNTrainedNetwork.h
+//  ANN V2.1.3
 //
 //  Created by Kalvar on 2014/5/22.
 //  Copyright (c) 2014 - 2015年 Kuo-Ming Lin (Kalvar Lin, ilovekalvar@gmail.com). All rights reserved.
 //
 
-@interface KRBPNTrainedNetwork : NSObject <NSCoding>
+@interface KRANNTrainedNetwork : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSMutableArray *inputs;
 @property (nonatomic, strong) NSMutableArray *inputWeights;
