@@ -12,6 +12,8 @@ platform :ios, '7.0'
 pod "KRANN", "~> 2.0"
 ```
 
+## How to use
+
 ``` objective-c
 #import "KRANN.h"
 
