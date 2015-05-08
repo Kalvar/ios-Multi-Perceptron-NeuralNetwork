@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 - 2015年 Kuo-Ming Lin (Kalvar Lin, ilovekalvar@gmail.com). All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+
 @class KRANNTrainedNetwork;
 
 @interface NSUserDefaults (ExtendUsages)
