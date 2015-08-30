@@ -1,10 +1,15 @@
 //
 //  KRANN.m
-//  ANN V2.1.3
+//  ANN V2.1.4
 //
 //  Created by Kalvar on 13/6/28.
 //  Copyright (c) 2013 - 2015年 Kuo-Ming Lin (Kalvar Lin, ilovekalvar@gmail.com). All rights reserved.
 //
+/*
+ * @ 常使用的 f(x) 轉換函式為「雙彎曲函數」= 1 / ( 1 + e^-x )
+ *   - 須將輸入的值域定在 [0.0, 1.0] 之間
+ *   - 輸出則為 {0.0, 1.0} 2 種正負訊號
+ */
 
 #import "KRANN.h"
 #import "KRANN+NSUserDefaults.h"
@@ -27,7 +32,7 @@ static NSString *_kOriginalOutputGoals      = @"_kOriginalOutputGoals";
 static NSString *_kOriginalLearningRate     = @"_kOriginalLearningRate";
 static NSString *_kOriginalConvergenceError = @"_kOriginalConvergenceError";
 static NSString *_kOriginalFOfAlpha         = @"_kOriginalFOfAlpha";
-static NSString *_kOriginalLimitGenerations = @"_kOriginalLimitGenerations";
+static NSString *_kOriginalLimitIterations = @"_kOriginalLimitIterations";
 //static NSString *_kOriginalMaxMultiple    = @"_kOriginalMaxMultiple";
 
 static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
@@ -66,7 +71,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     self.outputResults       = nil;
     
     self.trainedNetwork      = nil;
-    self.trainingGeneration  = 0;
+    self.trainingIteration  = 0;
     
     self._hiddenOutputs      = nil;
     self._outputErrors       = nil;
@@ -92,7 +97,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     self.learningRate        = 0.8f;
     self.convergenceError    = 0.001f;
     self.fOfAlpha            = 1;
-    self.limitGeneration     = 0;
+    self.limitIteration     = 0;
     self.isTraining          = NO;
     self.trainedInfo         = nil;
     
@@ -100,7 +105,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     //self.openDebug         = false;
     
     self.trainingCompletion  = nil;
-    self.eachGeneration      = nil;
+    self.perIteration      = nil;
     
     [self _resetTrainedParameters];
     
@@ -133,31 +138,31 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     
     if( self.delegate )
     {
-        if( [self.delegate respondsToSelector:@selector(KRANNDidTrainFinished:trainedInfo:totalTimes:)] )
+        if( [self.delegate respondsToSelector:@selector(krANNDidTrainFinished:trainedInfo:totalTimes:)] )
         {
-            [self.delegate KRANNDidTrainFinished:self trainedInfo:self.trainedInfo totalTimes:self.trainingGeneration];
+            [self.delegate krANNDidTrainFinished:self trainedInfo:self.trainedInfo totalTimes:self.trainingIteration];
         }
     }
     
     if( self.trainingCompletion )
     {
-        self.trainingCompletion(YES, self.trainedInfo, self.trainingGeneration);
+        self.trainingCompletion(YES, self.trainedInfo, self.trainingIteration);
     }
 }
 
--(void)_printEachGeneration
+-(void)_printEachIteration
 {
     if( self.delegate )
     {
-        if( [self.delegate respondsToSelector:@selector(KRANNEachGeneration:trainedInfo:times:)] )
+        if( [self.delegate respondsToSelector:@selector(krANNPerIteration:trainedInfo:times:)] )
         {
-            [self.delegate KRANNEachGeneration:self trainedInfo:self.trainedInfo times:self.trainingGeneration];
+            [self.delegate krANNPerIteration:self trainedInfo:self.trainedInfo times:self.trainingIteration];
         }
     }
     
-    if( self.eachGeneration )
+    if( self.perIteration )
     {
-        self.eachGeneration(self.trainingGeneration, self.trainedInfo);
+        self.perIteration(self.trainingIteration, self.trainedInfo);
     }
 }
 
@@ -182,7 +187,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     [_originals setObject:[NSNumber numberWithFloat:self.learningRate] forKey:_kOriginalLearningRate];
     [_originals setObject:[NSNumber numberWithDouble:self.convergenceError] forKey:_kOriginalConvergenceError];
     [_originals setObject:[NSNumber numberWithFloat:self.fOfAlpha] forKey:_kOriginalFOfAlpha];
-    [_originals setObject:[NSNumber numberWithInteger:self.limitGeneration] forKey:_kOriginalLimitGenerations];
+    [_originals setObject:[NSNumber numberWithInteger:self.limitIteration] forKey:_kOriginalLimitIterations];
     //[_originals setObject:[NSNumber numberWithInteger:self._maxMultiple] forKey:_kOriginalMaxMultiple];
 }
 
@@ -217,7 +222,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
             self.learningRate     = [[_originals objectForKey:_kOriginalLearningRate] floatValue];
             self.convergenceError = [[_originals objectForKey:_kOriginalConvergenceError] doubleValue];
             self.fOfAlpha         = [[_originals objectForKey:_kOriginalFOfAlpha] floatValue];
-            self.limitGeneration  = [[_originals objectForKey:_kOriginalLimitGenerations] integerValue];
+            self.limitIteration  = [[_originals objectForKey:_kOriginalLimitIterations] integerValue];
             
             //self._maxMultiple     = [[_originals objectForKey:_kOriginalMaxMultiple] integerValue];
         }
@@ -893,7 +898,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 
 -(void)_startTraining
 {
-    ++self.trainingGeneration;
+    ++self.trainingIteration;
     self._patternIndex = -1;
     //開始代入 X1, X2 ... Xn 各組的訓練資料
     for( NSArray *_inputs in self.inputs )
@@ -917,7 +922,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     }
     
     //如有指定迭代數 && 當前訓練迭代數 >= 指定迭代數
-    if( self.limitGeneration > 0 && self.trainingGeneration >= self.limitGeneration )
+    if( self.limitIteration > 0 && self.trainingIteration >= self.limitIteration )
     {
         //停止訓練
         [self _completedTraining];
@@ -936,7 +941,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     else
     {
         //全部數據都訓練完了，才為 1 迭代
-        [self _printEachGeneration];
+        [self _printEachIteration];
         //未達收斂誤差，則繼續執行訓練
         [self _startTraining];
     }
@@ -988,8 +993,8 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 @synthesize learningRate        = _learningRate;
 @synthesize convergenceError    = _convergenceError;
 @synthesize fOfAlpha            = _fOfAlpha;
-@synthesize limitGeneration     = _limitGeneration;
-@synthesize trainingGeneration  = _trainingGeneration;
+@synthesize limitIteration     = _limitIteration;
+@synthesize trainingIteration  = _trainingIteration;
 @synthesize isTraining          = _isTraining;
 @synthesize trainedInfo         = _trainedInfo;
 @synthesize trainedNetwork      = _trainedNetwork;
@@ -998,7 +1003,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 //@synthesize openDebug         = _openDebug;
 
 @synthesize trainingCompletion  = _trainingCompletion;
-@synthesize eachGeneration      = _eachGeneration;
+@synthesize perIteration      = _perIteration;
 
 @synthesize _hiddenOutputs;
 @synthesize _goalValues;
@@ -1111,7 +1116,6 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     }
     
     //NSLog(@"_layers : %@", _layers);
-    
 }
 
 /*
@@ -1324,7 +1328,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  * @ Start Training ANN
  *   - And it'll auto save the trained-network when it finished.
  */
--(void)trainingSave
+-(void)trainingBySave
 {
     [self _trainingWithExtraHandler:^
     {
@@ -1336,7 +1340,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  * @ Start Training ANN
  *   - It'll random setup all weights and biases.
  */
--(void)trainingRandom
+-(void)trainingByRandomSettings
 {
     [self randomWeights];
     [self training];
@@ -1346,7 +1350,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  * @ Start Training ANN
  *   - It'll random setup all weights and biases, then it'll auto save the trained-network when it finished.
  */
--(void)trainingRandomAndSave
+-(void)trainingByRandomWithSave
 {
     self._isDoneSave = YES;
     [self randomWeights];
@@ -1354,6 +1358,15 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     {
         self._isDoneSave = YES;
     }];
+}
+
+/*
+ * @ Continue training besides with adding pattern
+ */
+-(void)trainingWithAddPatterns:(NSArray *)_patterns outputGoals:(NSArray *)_goals
+{
+    [self addPatterns:_patterns outputGoals:_goals];
+    [self continueTraining];
 }
 
 /*
@@ -1395,7 +1408,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 /*
  * @ 單純使用訓練好的網路作輸出，不跑導傳遞修正網路
  */
--(void)directOutputAtInputs:(NSArray *)_rawInputs
+-(void)directOutputAtInputs:(NSArray *)_rawInputs completion:(void(^)())_completion
 {
     if( _rawInputs != nil )
     {
@@ -1411,18 +1424,26 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
             [self _formatMaxMultiple];
             //將訓練迭代變為 1 次即終止
             //[self recoverTrainedNetwork];
-            _limitGeneration    = 1;
-            _trainingGeneration = _limitGeneration;
+            _limitIteration    = 1;
+            _trainingIteration = _limitIteration;
             self._hiddenOutputs = [self _sumHiddenLayerOutputsFromInputs:_trainInputs];
             self.outputResults  = [self _sumOutputLayerNetsValue];
-            if( self.limitGeneration > 0 && self.trainingGeneration >= self.limitGeneration )
+            if( self.limitIteration > 0 && self.trainingIteration >= self.limitIteration )
             {
                 [self _completedTraining];
+                if( _completion )
+                {
+                    _completion();
+                }
                 return;
             }
         });
     });
-    
+}
+
+-(void)directOutputAtInputs:(NSArray *)_rawInputs
+{
+    [self directOutputAtInputs:_rawInputs completion:nil];
 }
 
 #pragma --mark Trained Network Public Methods
@@ -1446,8 +1467,8 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     _ANNNetwork.learningRate         = _learningRate;
     _ANNNetwork.convergenceError     = _convergenceError;
     _ANNNetwork.fOfAlpha             = _fOfAlpha;
-    _ANNNetwork.limitGeneration      = _limitGeneration;
-    _ANNNetwork.trainingGeneration   = _trainingGeneration;
+    _ANNNetwork.limitIteration      = _limitIteration;
+    _ANNNetwork.trainingIteration   = _trainingIteration;
     [self removeNetwork];
     _trainedNetwork                  = _ANNNetwork;
     [NSUserDefaults saveTrainedNetwork:_ANNNetwork forKey:_kTrainedNetworkInfo];
@@ -1483,8 +1504,8 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
             _learningRate       = _recoverNetwork.learningRate;
             _convergenceError   = _recoverNetwork.convergenceError;
             _fOfAlpha           = _recoverNetwork.fOfAlpha;
-            _limitGeneration    = _recoverNetwork.limitGeneration;
-            _trainingGeneration = _recoverNetwork.trainingGeneration;
+            _limitIteration    = _recoverNetwork.limitIteration;
+            _trainingIteration = _recoverNetwork.trainingIteration;
             [self removeNetwork];
             _trainedNetwork     = _recoverNetwork;
             [NSUserDefaults saveTrainedNetwork:_trainedNetwork forKey:_kTrainedNetworkInfo];
@@ -1507,9 +1528,9 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     _trainingCompletion = _theBlock;
 }
 
--(void)setEachGeneration:(KRANNEachGeneration)_theBlock
+-(void)setPerIteration:(KRANNPerIteration)_theBlock
 {
-    _eachGeneration     = _theBlock;
+    _perIteration     = _theBlock;
 }
 
 #pragma --mark Getters
@@ -1537,7 +1558,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
              KRANNTrainedHiddenBiases   : _allHiddenBiases,
              KRANNTrainedOutputBiases   : _outputBiases,
              KRANNTrainedOutputResults  : _outputResults,
-             KRANNTrainedGenerations    : [NSNumber numberWithInteger:_trainingGeneration]};
+             KRANNTrainedIterations    : [NSNumber numberWithInteger:_trainingIteration]};
 }
 
 -(KRANNTrainedNetwork *)trainedNetwork

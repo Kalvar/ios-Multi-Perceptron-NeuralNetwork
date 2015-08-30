@@ -1,6 +1,6 @@
 //
 //  ViewController.m
-//  ANN V2.1.3
+//  ANN V2.1.4
 //
 //  Created by Kalvar on 13/6/28.
 //  Copyright (c) 2013 - 2015年 Kuo-Ming Lin (Kalvar Lin, ilovekalvar@gmail.com). All rights reserved.
@@ -73,7 +73,6 @@
     }];
     
     [_krANN training];
-    //[_krANN trainingSave];
 }
 
 //Only setups patterns and output goals, and 1 output.
@@ -108,8 +107,7 @@
         }
     }];
     
-    //[_krANN trainingRandom];
-    [_krANN trainingRandomAndSave];
+    [_krANN trainingByRandomWithSave];
 }
 
 //To learn and verify numbers 0 to 9. And only setups patterns and output goals, and 10 outputs.
@@ -260,8 +258,7 @@
         }
     }];
     
-    [_krANN trainingRandom];
-    //[_krANN trainingRandomAndSave];
+    [_krANN trainingByRandomSettings];
 }
 
 - (void)viewDidLoad
@@ -276,13 +273,13 @@
     //收斂誤差值 ( Normally is 10^-3 or 10^-6 )
     _krANN.convergenceError = 0.000001f;
     //限制迭代次數
-    _krANN.limitGeneration  = 5000;
+    _krANN.limitIteration  = 100;
     
-    //每一次的迭代( Every generation-training )
-    [_krANN setEachGeneration:^(NSInteger times, NSDictionary *trainedInfo)
+    //每一次的迭代( Per iteration-training )
+    [_krANN setPerIteration:^(NSInteger times, NSDictionary *trainedInfo)
     {
-        NSLog(@"Generation times : %i", times);
-        //NSLog(@"Generation result : %f\n\n\n", [trainedInfo objectForKey:KRANNTrainedOutputResults]);
+        NSLog(@"Iteration times : %i", times);
+        //NSLog(@"Iteration result : %f\n\n\n", [trainedInfo objectForKey:KRANNTrainedOutputResults]);
     }];
     
     //[self useSample1];
@@ -294,15 +291,15 @@
     
     //Start the training, and random the weights, biases, if you use this method that you won't need to setup any weights and biases before.
     //Random means let network to auto setup inputWeights, hiddenBiases, hiddenWeights values.
-    //[_krANN trainingRandom];
+    //[_krANN trainingByRandomSettings];
     //As above said, then it will be saved the trained network after done.
-    //[_krANN trainingRandomAndSave];
+    //[_krANN trainingByRandomWithSave];
     
     //Start the training network, and it won't be saving the trained-network when finished.
     //[_krANN training];
     
     //Start the training network, and it will auto-saving the trained-network when finished.
-    //[_krANN trainingSave];
+    //[_krANN trainingBySave];
     
     //If you wanna pause the training.
     //[_krANN pause];
@@ -318,19 +315,7 @@
     
     //If you wanna recover the trained-network data.
     //[_krANN recoverNetwork];
-    //Or you wanna use the KRANNTrainedNetwork object to recover the training data.
-    /*
-    KRANNTrainedNetwork *_trainedNetwork = [[KRANNTrainedNetwork alloc] init];
-    _trainedNetwork.inputs = [NSMutableArray arrayWithObjects:
-                              @[@1],
-                              @[@0],
-                              @[@1],
-                              nil];
-    [_krANN recoverNetwork:_trainedNetwork];
-    */
     
-    //To remove the saved trained-network.
-    //[_krANN removeNetwork];
 }
 
 - (void)didReceiveMemoryWarning
@@ -342,14 +327,14 @@
 
 #pragma --mark KRANNDelegate
 /*
--(void)KRANNDidTrainFinished:(KRANN *)krAnn trainedInfo:(NSDictionary *)trainedInfo totalTimes:(NSInteger)totalTimes
+-(void)krANNDidTrainFinished:(KRANN *)krAnn trainedInfo:(NSDictionary *)trainedInfo totalTimes:(NSInteger)totalTimes
 {
     NSLog(@"Use trained-network to direct output : %@", krAnn.outputResults);
 }
 
--(void)KRANNEachGeneration:(KRANN *)krAnn trainedInfo:(NSDictionary *)trainedInfo times:(NSInteger)times
+-(void)krANNPerIteration:(KRANN *)krAnn trainedInfo:(NSDictionary *)trainedInfo times:(NSInteger)times
 {
-    NSLog(@"Generation times : %i", times);
+    NSLog(@"Iteration times : %i", times);
 }
  */
 

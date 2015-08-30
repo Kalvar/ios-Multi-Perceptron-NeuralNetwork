@@ -1,6 +1,6 @@
 //
 //  KRANN.h
-//  ANN V2.1.3 ( 多層感知倒傳遞類神經網路 ; 本方法使用其中的 EBP 誤差導傳遞類神經網路建構 )
+//  ANN V2.1.4 ( 多層感知倒傳遞類神經網路 ; 本方法使用其中的 EBP 誤差導傳遞類神經網路建構 )
 //
 //  Created by Kalvar on 13/6/28.
 //  Copyright (c) 2013 - 2015年 Kuo-Ming Lin (Kalvar Lin, ilovekalvar@gmail.com). All rights reserved.
@@ -32,7 +32,7 @@ typedef void(^KRANNTrainingCompletion)(BOOL success, NSDictionary *trainedInfo, 
  *   - times       : 訓練到了第幾代
  *   - trainedInfo : 本次訓練的 Network 資料
  */
-typedef void(^KRANNEachGeneration)(NSInteger times, NSDictionary *trainedInfo);
+typedef void(^KRANNPerIteration)(NSInteger times, NSDictionary *trainedInfo);
 
 /*
  * @ 當前訓練的 ANN Network 數據資料
@@ -43,7 +43,7 @@ typedef void(^KRANNEachGeneration)(NSInteger times, NSDictionary *trainedInfo);
  *      - KRANNTrainedHiddenBiases   : NSMutableArray, 調整後的各隱藏層神經元偏權值
  *      - KRANNTrainedOutputBiases   : NSMutableArray, 調整後的各輸出層神經元偏權值
  *      - KRANNTrainedOutputResults  : NSArray,        輸出結果
- *      - KRANNTrainedGenerations    : NSInteger,      已訓練到第幾代
+ *      - KRANNTrainedIterations    : NSInteger,      已訓練到第幾代
  *
  */
 static NSString *KRANNTrainedInputWeights      = @"KRANNTrainedInputWeights";
@@ -52,7 +52,7 @@ static NSString *KRANNTrainedHiddenWeights     = @"KRANNTrainedHiddenWeights";
 static NSString *KRANNTrainedHiddenBiases      = @"KRANNTrainedHiddenBiases";
 static NSString *KRANNTrainedOutputBiases      = @"KRANNTrainedOutputBiases";
 static NSString *KRANNTrainedOutputResults     = @"KRANNTrainedOutputResults";
-static NSString *KRANNTrainedGenerations       = @"KRANNTrainedGenerations";
+static NSString *KRANNTrainedIterations       = @"KRANNTrainedIterations";
 
 typedef enum KRANNActivationFunctions
 {
@@ -108,9 +108,9 @@ typedef enum KRANNActivationFunctions
 @property (nonatomic, assign) float fOfAlpha;
 
 //訓練迭代次數上限
-@property (nonatomic, assign) NSInteger limitGeneration;
+@property (nonatomic, assign) NSInteger limitIteration;
 //目前訓練到第幾代
-@property (nonatomic, assign) NSInteger trainingGeneration;
+@property (nonatomic, assign) NSInteger trainingIteration;
 //是否正在訓練中
 @property (nonatomic, assign) BOOL isTraining;
 //當前訓練後的資料
@@ -123,7 +123,7 @@ typedef enum KRANNActivationFunctions
 //@property (nonatomic, assign) BOOL openDebug;
 
 @property (nonatomic, copy) KRANNTrainingCompletion trainingCompletion;
-@property (nonatomic, copy) KRANNEachGeneration eachGeneration;
+@property (nonatomic, copy) KRANNPerIteration perIteration;
 
 +(instancetype)sharedNetwork;
 -(instancetype)init;
@@ -143,13 +143,15 @@ typedef enum KRANNActivationFunctions
 
 #pragma --mark Training Public Methods
 -(void)training;
--(void)trainingSave;
--(void)trainingRandom;
--(void)trainingRandomAndSave;
+-(void)trainingBySave;
+-(void)trainingByRandomSettings;
+-(void)trainingByRandomWithSave;
+-(void)trainingWithAddPatterns:(NSArray *)_patterns outputGoals:(NSArray *)_goals;
 -(void)pause;
 -(void)continueTraining;
 -(void)reset;
 -(void)restart;
+-(void)directOutputAtInputs:(NSArray *)_rawInputs completion:(void(^)())_completion;
 -(void)directOutputAtInputs:(NSArray *)_rawInputs;
 
 #pragma --mark Trained Network Public Methods
@@ -160,14 +162,14 @@ typedef enum KRANNActivationFunctions
 
 #pragma --mark Blocks
 -(void)setTrainingCompletion:(KRANNTrainingCompletion)_theBlock;
--(void)setEachGeneration:(KRANNEachGeneration)_theBlock;
+-(void)setPerIteration:(KRANNPerIteration)_theBlock;
 
 @end
 
 @protocol KRANNDelegate <NSObject>
 
 @optional
--(void)KRANNDidTrainFinished:(KRANN *)krAnn trainedInfo:(NSDictionary *)trainedInfo totalTimes:(NSInteger)totalTimes;
--(void)KRANNEachGeneration:(KRANN*)krAnn trainedInfo:(NSDictionary *)trainedInfo times:(NSInteger)times;
+-(void)krANNDidTrainFinished:(KRANN *)krAnn trainedInfo:(NSDictionary *)trainedInfo totalTimes:(NSInteger)totalTimes;
+-(void)krANNPerIteration:(KRANN*)krAnn trainedInfo:(NSDictionary *)trainedInfo times:(NSInteger)times;
 
 @end

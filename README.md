@@ -9,7 +9,7 @@ This project designed for mobile device perform the basic data analysis. If you 
 
 ```ruby
 platform :ios, '7.0'
-pod "KRANN", "~> 2.0"
+pod "KRANN", "~> 2.1.4"
 ```
 
 ## How to use
@@ -81,7 +81,6 @@ pod "KRANN", "~> 2.0"
     }];
     
     [_krANN training];
-    //[_krANN trainingSave];
 }
 
 //Only setups patterns and output goals, and 1 output.
@@ -116,8 +115,7 @@ pod "KRANN", "~> 2.0"
         }
     }];
     
-    //[_krANN trainingRandom];
-    [_krANN trainingRandomAndSave];
+    [_krANN trainingByRandomWithSave];
 }
 
 //To learn and verify numbers 0 to 9. And only setups patterns and output goals, and 10 outputs.
@@ -268,8 +266,7 @@ pod "KRANN", "~> 2.0"
         }
     }];
     
-    [_krANN trainingRandom];
-    //[_krANN trainingRandomAndSave];
+    [_krANN trainingByRandomSettings];
 }
 
 - (void)viewDidLoad
@@ -284,13 +281,13 @@ pod "KRANN", "~> 2.0"
     //收斂誤差值 ( Normally is 10^-3 or 10^-6 )
     _krANN.convergenceError = 0.000001f;
     //限制迭代次數
-    _krANN.limitGeneration  = 5000;
+    _krANN.limitIteration   = 5000;
     
-    //每一次的迭代( Every generation-training )
-    [_krANN setEachGeneration:^(NSInteger times, NSDictionary *trainedInfo)
+    //每一次的迭代( Per iteration-training )
+    [_krANN setPerIteration:^(NSInteger times, NSDictionary *trainedInfo)
     {
-        NSLog(@"Generation times : %i", times);
-        //NSLog(@"Generation result : %f\n\n\n", [trainedInfo objectForKey:KRANNTrainedOutputResults]);
+        NSLog(@"Iteration times : %i", times);
+        //NSLog(@"Iteration result : %f\n\n\n", [trainedInfo objectForKey:KRANNTrainedOutputResults]);
     }];
     
     [self useSample1];
@@ -302,7 +299,7 @@ pod "KRANN", "~> 2.0"
 
 ## Version
 
-V2.1.3
+V2.1.4
 
 ## License
 
@@ -310,4 +307,5 @@ MIT.
 
 ## Remarks
 
-About the user guide, I have no time to write the user and technical guide in here. Maybe one day I take a long term vacations, the guide will be implemented.
+1. Waiting for turning performance and using EDBD (includes QuickProp) method to enhance this algorithm.
+2. About the user guide, I have no time to write the user and technical guide in here. Maybe one day I take a long term vacations, the guide will be implemented.

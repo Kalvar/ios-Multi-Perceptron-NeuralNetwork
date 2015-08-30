@@ -1,6 +1,6 @@
 //
 //  KRANNTrainedNetwork.m
-//  ANN V2.1.3
+//  ANN V2.1.4
 //
 //  Created by Kalvar on 2014/5/22.
 //  Copyright (c) 2014 - 2015年 Kuo-Ming Lin (Kalvar Lin, ilovekalvar@gmail.com). All rights reserved.
@@ -51,8 +51,8 @@
 @synthesize learningRate       = _learningRate;
 @synthesize convergenceError   = _convergenceError;
 @synthesize fOfAlpha           = _fOfAlpha;
-@synthesize limitGeneration    = _limitGeneration;
-@synthesize trainingGeneration = _trainingGeneration;
+@synthesize limitIteration    = _limitIteration;
+@synthesize trainingIteration = _trainingIteration;
 
 +(instancetype)sharedNetwork
 {
@@ -96,8 +96,8 @@
     [self _encodeDouble:_convergenceError forKey:@"convergenceError"];
     [self _encodeFloat:_fOfAlpha forKey:@"fOfAlpha"];
     
-    [self _encodeInteger:_limitGeneration forKey:@"limitGeneration"];
-    [self _encodeInteger:_trainingGeneration forKey:@"trainingGeneration"];
+    [self _encodeInteger:_limitIteration forKey:@"limitIteration"];
+    [self _encodeInteger:_trainingIteration forKey:@"trainingIteration"];
 }
 
 -(instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -121,8 +121,8 @@
         _convergenceError   = [aDecoder decodeDoubleForKey:@"convergenceError"];
         _fOfAlpha           = [aDecoder decodeFloatForKey:@"fOfAlpha"];
         
-        _limitGeneration    = [aDecoder decodeIntegerForKey:@"limitGeneration"];
-        _trainingGeneration = [aDecoder decodeIntegerForKey:@"trainingGeneration"];
+        _limitIteration    = [aDecoder decodeIntegerForKey:@"limitIteration"];
+        _trainingIteration = [aDecoder decodeIntegerForKey:@"trainingIteration"];
         
     }
     return self;
