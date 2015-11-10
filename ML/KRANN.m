@@ -32,7 +32,7 @@ static NSString *_kOriginalOutputGoals      = @"_kOriginalOutputGoals";
 static NSString *_kOriginalLearningRate     = @"_kOriginalLearningRate";
 static NSString *_kOriginalConvergenceError = @"_kOriginalConvergenceError";
 static NSString *_kOriginalFOfAlpha         = @"_kOriginalFOfAlpha";
-static NSString *_kOriginalLimitIterations = @"_kOriginalLimitIterations";
+static NSString *_kOriginalLimitIterations  = @"_kOriginalLimitIterations";
 //static NSString *_kOriginalMaxMultiple    = @"_kOriginalMaxMultiple";
 
 static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
@@ -402,14 +402,26 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
         default:
             break;
     }
-    //isNaN ( not a number )
-    /*
-    if( _y != _y )
-    {
-        [self restart];
-    }
-     */
     return _y;
+}
+
+-(double)_fDashOfNetOutput:(double)_netOutput
+{
+    double _dashOfNet = 0.0f;
+    switch (self.activationFunction)
+    {
+        case KRANNActivationFunctionSigmoid:
+            _dashOfNet = _netOutput * ( 1 - _netOutput );
+            break;
+        case KRANNActivationFunctionTanh:
+            _dashOfNet = 1 - ( _netOutput * _netOutput );
+            break;
+        case KRANNActivationFunctionFuzzy:
+        default:
+            _dashOfNet = _netOutput;
+            break;
+    }
+    return _dashOfNet;
 }
 
 @end
@@ -585,7 +597,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
             float _outputValue = [_netOutput floatValue];
             float _targetValue = [[self._goalValues objectAtIndex:_outputIndex] floatValue] / self._maxMultiple;
             //計算與期望值的誤差
-            float _errorValue  = _outputValue * ( 1 - _outputValue ) * ( _targetValue - _outputValue );
+            float _errorValue  = [self _fDashOfNetOutput:_outputValue] * ( _targetValue - _outputValue );
             [_errors addObject:[NSNumber numberWithFloat:_errorValue]];
             
             //儲存每一個 Pattern 的輸出誤差 (Tj - Yj) ^ 2
@@ -659,7 +671,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
                     _sumError          += _hiddenError;
                 }
                 //微分, S * Hidden layer net output * ( 1 - Hidden layer net output )
-                _sumError *= _hiddenOutput * ( 1 - _hiddenOutput );
+                _sumError *= [self _fDashOfNetOutput:_hiddenOutput];
                 [_netErrors addObject:[NSNumber numberWithFloat:_sumError]];
             }
             [_allErrors addObject:_netErrors];
