@@ -12,13 +12,13 @@ pod "KRANN", "~> 2.1.4"
 
 ## How to use
 
-##### Import
+#### Import
 
 ``` objective-c
 #import "KRANN.h"
 ```
 
-##### Common Settings
+#### Common Settings
 
 ``` objective-c
 // Use singleton or [[KRANN alloc] init]
@@ -41,7 +41,7 @@ _krMLP.limitIteration   = 1000;
 }];
 ```
 
-##### Sample 1
+#### Sample 1
 
 Setups any detail, and 2 outputs, you could set more outputs.
 
@@ -99,7 +99,7 @@ __block typeof(_krMLP) _weakKRANN = _krMLP;
 [_krMLP training];
 ```
 
-##### Sample 2
+#### Sample 2
 
 Only setups patterns and output goals, and 1 output.
 
@@ -136,7 +136,7 @@ __block typeof(_krMLP) _weakKRANN = _krMLP;
 [_krMLP trainingByRandomWithSave];
 ```
 
-##### Sample 3
+#### Sample 3
 
 Identify numbers 0 to 9. And only setups patterns and output goals, and 10 outputs.
 
