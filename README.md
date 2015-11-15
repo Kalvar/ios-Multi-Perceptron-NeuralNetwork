@@ -1,7 +1,7 @@
 ios-Multi-Perceptron-NeuralNetwork
 =================
 
-Machine Learning (マシンラーニング) in this project, it implemented multi-perceptrons neural network (ニューラルネットワーク) based on Back Propagation Neural Network (BPN) and designed unlimited-hidden-layers to do the training tasks and also prepared flexible spaces to wait for combining Fuzzy theory in network. This network can be used in products recommendation (おすすめの商品), user behavior analysis (ユーザーの行動分析), data mining (データマイニング) and data analysis (データ分析).
+Machine Learning (マシンラーニング) in this project, it implemented multi-perceptrons neural network (ニューラルネットワーク) based on Back Propagation Neural Network (BPN) and designed unlimited-hidden-layers (MLP). This network can be used in products recommendation (おすすめの商品), user behavior analysis (ユーザーの行動分析), data mining (データマイニング) and data analysis (データ分析).
 
 #### Podfile
 
