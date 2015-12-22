@@ -96,8 +96,8 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     self.outputGoals         = [NSMutableArray new];
     self.learningRate        = 0.8f;
     self.convergenceError    = 0.001f;
-    self.fOfAlpha            = 1;
-    self.limitIteration     = 0;
+    self.fOfAlpha            = 1.0f;
+    self.limitIteration      = 0;
     self.isTraining          = NO;
     self.trainedInfo         = nil;
     
@@ -105,7 +105,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
     //self.openDebug         = false;
     
     self.trainingCompletion  = nil;
-    self.perIteration      = nil;
+    self.perIteration        = nil;
     
     [self _resetTrainedParameters];
     
@@ -373,7 +373,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
  */
 -(float)_fOfTanh:(float)_x
 {
-    return ( 2.0f / ( 1 + powf(M_E, (-2.0f * _x)) ) ) - 1.0f;
+    return ( 2.0f / ( 1 + powf(M_E, (-(self.fOfAlpha) * _x)) ) ) - 1.0f;
 }
 
 /*
@@ -414,7 +414,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
             _dashOfNet = _netOutput * ( 1 - _netOutput );
             break;
         case KRANNActivationFunctionTanh:
-            _dashOfNet = 1 - ( _netOutput * _netOutput );
+            _dashOfNet = ( 1 - ( _netOutput * _netOutput ) ) * ( self.fOfAlpha / 2.0f );
             break;
         case KRANNActivationFunctionFuzzy:
         default:
@@ -1005,8 +1005,8 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 @synthesize learningRate        = _learningRate;
 @synthesize convergenceError    = _convergenceError;
 @synthesize fOfAlpha            = _fOfAlpha;
-@synthesize limitIteration     = _limitIteration;
-@synthesize trainingIteration  = _trainingIteration;
+@synthesize limitIteration      = _limitIteration;
+@synthesize trainingIteration   = _trainingIteration;
 @synthesize isTraining          = _isTraining;
 @synthesize trainedInfo         = _trainedInfo;
 @synthesize trainedNetwork      = _trainedNetwork;
