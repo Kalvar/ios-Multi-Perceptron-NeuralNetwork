@@ -359,7 +359,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 
 @implementation KRANN (fixFOfNets)
 /*
- * @ S 形函數
+ * @ S 形函數, Sigmoid function
  *   - [0.0, 1.0]
  */
 -(float)_fOfSigmoid:(float)_x
@@ -368,7 +368,7 @@ static NSString *_kTrainedNetworkInfo       = @"kTrainedNetworkInfo";
 }
 
 /*
- * @ 雙曲線函數
+ * @ 雙曲線正切函數, Hyperbolic Function
  *   - [-1.0, 1.0]
  */
 -(float)_fOfTanh:(float)_x
