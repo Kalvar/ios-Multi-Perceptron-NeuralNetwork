@@ -1,13 +1,13 @@
 ios-Multi-Perceptron-NeuralNetwork
 =================
 
-Machine Learning (マシンラーニング) in this project, it implemented multi-perceptrons neural network (ニューラルネットワーク) based on Back Propagation Neural Network (BPN) and designed unlimited-hidden-layers (MLP). This network can be used in products recommendation (おすすめの商品), user behavior analysis (ユーザーの行動分析), data mining (データマイニング) and data analysis (データ分析).
+Machine Learning (マシンラーニング) in this project, it implemented multi-layer perceptrons neural network (MLP) (ニューラルネットワーク) and Back Propagation Neural Network (BPN). It designed unlimited hidden layers to do the training tasks. This network can be used in products recommendation (おすすめの商品), user behavior analysis (ユーザーの行動分析), data mining (データマイニング) and data analysis (データ分析).
 
 #### Podfile
 
 ```ruby
 platform :ios, '7.0'
-pod "KRANN", "~> 2.1.4"
+pod "KRMLP", "~> 2.2.0"
 ```
 
 ## How to use
@@ -15,290 +15,275 @@ pod "KRANN", "~> 2.1.4"
 #### Import
 
 ``` objective-c
-#import "KRANN.h"
+#import "KRMLP.h"
 ```
 
-#### Common Settings
+#### Creating training samples
+
+Using KRMLPPattern to create the training patterns.
+``` objective-c
+KRMLPPattern *pattern = [[KRMLPPattern alloc] initWithFeatures:@[@1, @0, @0.5f] targets:@[@0, @1]];
+```
+
+For example, these training samples are going to identify 0 to 9 numbers, it is going to create the features (4 x 9) of patterns in first step.
 
 ``` objective-c
-// Use singleton or [[KRANN alloc] init]
-_krMLP = [KRANN sharedNetwork];
+NSArray *features = @[// 0
+                      @[@1, @1, @1, @1,
+                        @1, @1, @1, @1,
+                        @1, @1, @0, @0,
+                        @0, @0, @0, @0,
+                        @0, @1, @1, @0,
+                        @0, @0, @0, @0,
+                        @0, @0, @1, @1,
+                        @1, @1, @1, @1,
+                        @1, @1, @1, @1],
+                      
+                      // 1
+                      @[@0, @0, @0, @0,
+                        @0, @0, @0, @0,
+                        @0, @0, @0, @0,
+                        @0, @0, @0, @0,
+                        @0, @0, @0, @0,
+                        @0, @0, @0, @0,
+                        @0, @0, @0, @1,
+                        @1, @1, @1, @1,
+                        @1, @1, @1, @1],
+                      
+                      // 2
+                      @[@1, @0, @0, @0,
+                        @1, @1, @1, @1,
+                        @1, @1, @0, @0,
+                        @0, @1, @0, @0,
+                        @0, @1, @1, @0,
+                        @0, @0, @1, @0,
+                        @0, @0, @1, @1,
+                        @1, @1, @1, @1,
+                        @0, @0, @0, @1],
+                      
+                      // 3
+                      @[@1, @0, @0, @0,
+                        @1, @0, @0, @0,
+                        @1, @1, @0, @0,
+                        @0, @1, @0, @0,
+                        @0, @1, @1, @0,
+                        @0, @0, @1, @0,
+                        @0, @0, @1, @1,
+                        @1, @1, @1, @1,
+                        @1, @1, @1, @1],
+                      
+                      // 4
+                      @[@1, @1, @1, @1,
+                        @1, @0, @0, @0,
+                        @0, @0, @0, @0,
+                        @0, @1, @0, @0,
+                        @0, @0, @0, @0,
+                        @0, @0, @1, @0,
+                        @0, @0, @0, @1,
+                        @1, @1, @1, @1,
+                        @1, @1, @1, @1],
+                      
+                      // 5
+                      @[@1, @1, @1, @1,
+                        @1, @0, @0, @0,
+                        @1, @1, @0, @0,
+                        @0, @1, @0, @0,
+                        @0, @1, @1, @0,
+                        @0, @0, @1, @0,
+                        @0, @0, @1, @1,
+                        @0, @0, @0, @1,
+                        @1, @1, @1, @1],
+                      
+                      // 6
+                      @[@1, @1, @1, @1,
+                        @1, @1, @1, @1,
+                        @1, @1, @0, @0,
+                        @0, @1, @0, @0,
+                        @0, @1, @1, @0,
+                        @0, @0, @1, @0,
+                        @0, @0, @1, @1,
+                        @0, @0, @0, @1,
+                        @1, @1, @1, @1],
+                      
+                      // 7
+                      @[@1, @0, @0, @0,
+                        @0, @0, @0, @0,
+                        @0, @1, @0, @0,
+                        @0, @0, @0, @0,
+                        @0, @0, @1, @0,
+                        @0, @0, @0, @0,
+                        @0, @0, @0, @1,
+                        @1, @1, @1, @1,
+                        @1, @1, @1, @1],
+                      
+                      // 8
+                      @[@1, @1, @1, @1,
+                        @1, @1, @1, @1,
+                        @1, @1, @0, @0,
+                        @0, @1, @0, @0,
+                        @0, @1, @1, @0,
+                        @0, @0, @1, @0,
+                        @0, @0, @1, @1,
+                        @1, @1, @1, @1,
+                        @1, @1, @1, @1],
+                      
+                      // 9
+                      @[@1, @1, @1, @1,
+                        @1, @0, @0, @0,
+                        @0, @1, @0, @0,
+                        @0, @1, @0, @0,
+                        @0, @0, @1, @0,
+                        @0, @0, @1, @0,
+                        @0, @0, @0, @1,
+                        @1, @1, @1, @1,
+                        @1, @1, @1, @1]
+                      ];
+```
 
-// Learning rate
-_krMLP.learningRate     = 0.8f;
+Second step, to go to define the 10 targets (outputs) to map the features.
+``` objective-c
+NSArray *targets  = @[// 0
+                      @[@1, @0, @0, @0, @0, @0, @0, @0, @0, @0],
+                      // 1
+                      @[@0, @1, @0, @0, @0, @0, @0, @0, @0, @0],
+                      // 2
+                      @[@0, @0, @1, @0, @0, @0, @0, @0, @0, @0],
+                      // 3
+                      @[@0, @0, @0, @1, @0, @0, @0, @0, @0, @0],
+                      // 4
+                      @[@0, @0, @0, @0, @1, @0, @0, @0, @0, @0],
+                      // 5
+                      @[@0, @0, @0, @0, @0, @1, @0, @0, @0, @0],
+                      // 6
+                      @[@0, @0, @0, @0, @0, @0, @1, @0, @0, @0],
+                      // 7
+                      @[@0, @0, @0, @0, @0, @0, @0, @1, @0, @0],
+                      // 8
+                      @[@0, @0, @0, @0, @0, @0, @0, @0, @1, @0],
+                      // 9
+                      @[@0, @0, @0, @0, @0, @0, @0, @0, @0, @1],
+                      ];
+```
 
-// Convergence error, 收斂誤差值 ( Normally is 10^-3 or 10^-6 )
-_krMLP.convergenceError = 0.001f;
-
-// Limit iterations
-_krMLP.limitIteration   = 1000;
-
-// Per iteration-training block
-[_krMLP setPerIteration:^(NSInteger times, NSDictionary *trainedInfo)
-{
-    NSLog(@"Iteration times : %i", times);
-    //NSLog(@"Iteration result : %f\n\n\n", [trainedInfo objectForKey:KRANNTrainedOutputResults]);
+Third step, to create the array of patterns.
+``` objective-c
+NSMutableArray <KRMLPPattern *> *patterns = [NSMutableArray new];
+[features enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    KRMLPPattern *pattern = [[KRMLPPattern alloc] initWithFeatures:obj targets:[targets objectAtIndex:idx]];
+    [patterns addObject:pattern];
 }];
 ```
 
-#### Sample 1
+#### Training sample
 
-Setups any detail, and 2 outputs, you could set more outputs.
-
+Normal case:
 ``` objective-c
-_krMLP.activationFunction = KRANNActivationFunctionSigmoid;
-// 各輸入向量陣列值 & 每一筆輸入向量的期望值( 輸出期望 )，因使用 S 形轉換函數，故 Input 值域須為 [0, 1]，輸出目標為 [0, 1]
-// Add the patterns, the weights connect with hidden layer, the output targets
-[_krMLP addPatterns:@[@1, @0.1, @0.5, @0.2] outputGoals:@[@0.7f, @0.8f]];  //Pattern 1, net 1, 2, 3, 4, the output layer is 2 nets
-[_krMLP addPatterns:@[@0, @1, @0.3, @0.9] outputGoals:@[@0.1f, @0.1f]];    //Pattern 2, same as pattern 1
-[_krMLP addPatterns:@[@1, @0.3, @0.1, @0.4] outputGoals:@[@0.95f, @0.9f]]; //Pattern 3, same as pattern 1
+KRMLP *mlp            = [[KRMLP alloc] init];
+mlp.maxIteration      = 300;
+mlp.convergenceError  = 0.001f;
+mlp.networkActivation = KRMLPNetActivationSigmoid;
 
-// 輸入層各向量值到隱藏層神經元的權重 ( 連結同一個 Net 的就一組一組分開，有幾個 Hidden Net 就會有幾組 )
-// Add pattern-weights in Input layer to first Hidden Layer
-[_krMLP addPatternWeights:@[@0.2, @-0.3]]; //W15, W16
-[_krMLP addPatternWeights:@[@0.4, @0.1]];  //W25, W26
-[_krMLP addPatternWeights:@[@-0.5, @0.2]]; //W35, W36
-[_krMLP addPatternWeights:@[@-0.1, @0.3]]; //W45, W46
+mlp.initialMaxWeight  = 0.5f;
+mlp.initialMinWeight  = -0.5f;
+mlp.initialOptimize   = YES;
 
-// 隱藏層神經元的偏權值 & 隱藏層神經元到輸出層神經元的權重值
-// Add Hidden Layers the biases of nets and the output weights in connect with output layer.
-[_krMLP addHiddenLayerAtIndex:0 netBias:-0.4f netWeights:@[@-0.3f, @0.2f, @0.1f]]; //Net 5
-[_krMLP addHiddenLayerAtIndex:0 netBias:0.2f netWeights:@[@-0.2f, @0.5f, @-0.1f]];  //Net 6
+[mlp addPatternsFromArray:patterns];
+[mlp setupOptimizationMethod:KRMLPOptimizationFixedInertia inertialRate:0.7f];
 
-[_krMLP addHiddenLayerAtIndex:1 netBias:0.1f netWeights:@[@0.1f, @0.3f]];   //Net 7
-[_krMLP addHiddenLayerAtIndex:1 netBias:0.25f netWeights:@[@0.2f, @0.1f]];  //Net 8
-[_krMLP addHiddenLayerAtIndex:1 netBias:0.3f netWeights:@[@0.3f, @-0.4f]];  //Net 9
+KRMLPHiddenLayer *hiddenLayer1 = [mlp createHiddenLayerWithAutomaticSetting]; // or [mlp createHiddenLayerWithNetCount:18 inputCount:36];
+[mlp addHiddenLayer:hiddenLayer1];
 
-[_krMLP addHiddenLayerAtIndex:2 netBias:-0.25f netWeights:@[@0.4f, @0.3f]];  //Net 10
-[_krMLP addHiddenLayerAtIndex:2 netBias:0.15f netWeights:@[@0.1f, @-0.2f]];  //Net 11
+KRMLPHiddenLayer *hiddenLayer2 = [mlp createHiddenLayerWithAutomaticSetting]; // or [mlp createHiddenLayerDependsOnHiddenLayer:hiddenLayer1 netCount:18];
+[mlp addHiddenLayer:hiddenLayer2];
 
-// 輸出層神經元偏權值, Net 12, Net 13
-// Add the output layer biases
-[_krMLP addOutputBiases:@[@0.0f, @0.1f]];
+KRMLPHiddenLayer *hiddenLayer3 = [mlp createHiddenLayerWithAutomaticSetting]; // or [mlp createHiddenLayerDependsOnHiddenLayer:hiddenLayer2 netCount:16];
+[mlp addHiddenLayer:hiddenLayer3];
 
-__block typeof(_krMLP) _weakKRANN = _krMLP;
-// Training completed
-[_krMLP setTrainingCompletion:^(BOOL success, NSDictionary *trainedInfo, NSInteger totalTimes){
-    if( success )
-    {
-        NSLog(@"Training done with total times : %i", totalTimes);
-        NSLog(@"TrainedInfo 1 : %@", trainedInfo);
-        
-        //Start in checking the network is correctly trained.
-        NSLog(@"======== Start in Verification ========");
-        [_weakKRANN setTrainingCompletion:^(BOOL success, NSDictionary *trainedInfo, NSInteger totalTimes){
-            NSLog(@"Training done with total times : %i", totalTimes);
-            NSLog(@"TrainedInfo 2 : %@", trainedInfo);
+[mlp setupOutputLayer];
+
+[mlp trainingWithCompletion:^(KRMLP *network) {
+    
+    [network saveForKey:@"A1"];
+    
+    // Verifying #7 (the number is something wrong)
+    NSArray *inputs = @[@1, @1, @1, @0,
+                        @0, @0, @0, @0,
+                        @0, @1, @0, @0,
+                        @0, @0, @0, @0,
+                        @0, @0, @1, @0,
+                        @0, @0, @0, @0,
+                        @0, @0, @0, @1,
+                        @1, @1, @1, @1,
+                        @1, @1, @1, @1];
+    [network predicateWithFeatures:inputs completion:^(KRMLPNetworkOutput *networkOutput) {
+        [networkOutput.results enumerateObjectsUsingBlock:^(KRMLPResult * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSLog(@"Predicated the number [%li] is possible %@%%", obj.outputIndex, obj.probability);
         }];
-        
-        [_weakKRANN recoverNetwork];
-        [_weakKRANN directOutputAtInputs:@[@1, @0.1, @0.5, @0.2]];
-    }
+    }];
+} iteration:^(KRMLP *network) {
+    NSLog(@"Iteration %li", network.iteration);
+} training:^(KRMLPTrainingOutput *trainingOutput) {
+    NSLog(@"Training outputs of pattern[%li] : %@", trainingOutput.patternIndex, trainingOutput.outputs);
 }];
-
-[_krMLP training];
 ```
 
-#### Sample 2
+#### How to save / recover the trained network
 
-Only setups patterns and output goals, and 1 output.
+To recover saved network that directly use [mlp recoverForKey:] to recall hiddenLayers, outputLayer, networkActivation and learningRate. Hence, you still could setup others parapmeters of KRMLP to train the new network or direct predicate something.
 
+For example, to continually training.
 ``` objective-c
-// Use f(x)=tanh(x)
-_krMLP.activationFunction = KRANNActivationFunctionTanh;
-// How many hidden layers
-_krMLP.hiddenLayerCount   = 0; //0 means let system decide the hidden layers number.
-
-[_krMLP addPatterns:@[@1, @0.1, @0.5, @0.2] outputGoals:@[@0.7f]];    //Pattern 1, net 1, 2, 3, 4, and 1 output
-[_krMLP addPatterns:@[@0, @-0.8, @0.3, @-0.9] outputGoals:@[@-0.1f]]; //Pattern 2, same as pattern 1
-[_krMLP addPatterns:@[@1, @0.3, @0.1, @0.4] outputGoals:@[@0.9f]];    //Pattern 3, same as pattern 1
-
-__block typeof(_krMLP) _weakKRANN = _krMLP;
-// Training completed
-[_krMLP setTrainingCompletion:^(BOOL success, NSDictionary *trainedInfo, NSInteger totalTimes){
-    if( success )
-    {
-        NSLog(@"Training done with total times : %i", totalTimes);
-        NSLog(@"TrainedInfo 1 : %@", trainedInfo);
-        
-        //Start in checking the network is correctly trained.
-        NSLog(@"======== Start in Verification ========");
-        [_weakKRANN setTrainingCompletion:^(BOOL success, NSDictionary *trainedInfo, NSInteger totalTimes){
-            NSLog(@"Training done with total times : %i", totalTimes);
-            NSLog(@"TrainedInfo 2 : %@", trainedInfo);
-        }];
-        
-        [_weakKRANN recoverNetwork];
-        [_weakKRANN directOutputAtInputs:@[@0, @-0.8, @0.3, @-0.9]];
-    }
+KRMLP *mlp            = [[KRMLP alloc] init];
+[mlp recoverForKey:@"A1"];
+mlp.maxIteration      = 50;
+mlp.convergenceError  = 0.001f;
+[mlp addPatternsFromArray:patterns];
+[mlp trainingWithCompletion:^(KRMLP *network) {
+    // If you want, to save to another record.
+    [network saveForKey:@"B2"];
+    // Do something since training finished.
+    // ...
+} iteration:^(KRMLP *network) {
+    //NSLog(@"Iteration %li", network.iteration);
+} training:^(KRMLPTrainingOutput *trainingOutput) {
+    //NSLog(@"Training outputs of pattern[%li] : %@", trainingOutput.patternIndex, trainingOutput.outputs);
 }];
-
-[_krMLP trainingByRandomWithSave];
 ```
 
-#### Sample 3
-
-Identify numbers 0 to 9. And only setups patterns and output goals, and 10 outputs.
-
+If you wanna change any recalled parameters / settings that you could set it up after called [mlp recoverForKey:] method.
 ``` objective-c
-_krMLP.activationFunction = KRANNActivationFunctionSigmoid;
-// How many hidden layers, if you set 0 that means let system decide the hidden layers number.
-_krMLP.hiddenLayerCount = 1;
+KRMLP *mlp            = [[KRMLP alloc] init];
+[mlp recoverForKey:@"A1"];
+mlp.maxIteration      = 50;
+mlp.convergenceError  = 0.001f;
+mlp.networkActivation = KRMLPNetActivationSigmoid;
+[mlp setupOptimizationMethod:KRMLPOptimizationQuickProp]; // Changes from KRMLPOptimizationFixedInertia to KRMLPOptimizationQuickProp.
+// ...
+```
 
-// 1
-[_krMLP addPatterns:@[@0, @0, @0, @0,
-                      @0, @0, @0, @0,
-                      @0, @0, @0, @0,
-                      @0, @0, @0, @0,
-                      @0, @0, @0, @0,
-                      @0, @0, @0, @0,
-                      @0, @0, @0, @1,
-                      @1, @1, @1, @1,
-                      @1, @1, @1, @1]
-        outputGoals:@[@1, @0, @0, @0, @0, @0, @0, @0, @0, @0]];
-// 2
-[_krMLP addPatterns:@[@1, @0, @0, @0,
-                      @1, @1, @1, @1,
-                      @1, @1, @0, @0,
-                      @0, @1, @0, @0,
-                      @0, @1, @1, @0,
-                      @0, @0, @1, @0,
-                      @0, @0, @1, @1,
-                      @1, @1, @1, @1,
-                      @0, @0, @0, @1]
-        outputGoals:@[@0, @1, @0, @0, @0, @0, @0, @0, @0, @0]];
-// 3
-[_krMLP addPatterns:@[@1, @0, @0, @0,
-                      @1, @0, @0, @0,
-                      @1, @1, @0, @0,
-                      @0, @1, @0, @0,
-                      @0, @1, @1, @0,
-                      @0, @0, @1, @0,
-                      @0, @0, @1, @1,
-                      @1, @1, @1, @1,
-                      @1, @1, @1, @1]
-        outputGoals:@[@0, @0, @1, @0, @0, @0, @0, @0, @0, @0]];
-// 4
-[_krMLP addPatterns:@[@1, @1, @1, @1,
-                      @1, @0, @0, @0,
-                      @0, @0, @0, @0,
-                      @0, @1, @0, @0,
-                      @0, @0, @0, @0,
-                      @0, @0, @1, @0,
-                      @0, @0, @0, @1,
-                      @1, @1, @1, @1,
-                      @1, @1, @1, @1]
-        outputGoals:@[@0, @0, @0, @1, @0, @0, @0, @0, @0, @0]];
-// 5
-[_krMLP addPatterns:@[@1, @1, @1, @1,
-                      @1, @0, @0, @0,
-                      @1, @1, @0, @0,
-                      @0, @1, @0, @0,
-                      @0, @1, @1, @0,
-                      @0, @0, @1, @0,
-                      @0, @0, @1, @1,
-                      @0, @0, @0, @1,
-                      @1, @1, @1, @1]
-        outputGoals:@[@0, @0, @0, @0, @1, @0, @0, @0, @0, @0]];
-// 6
-[_krMLP addPatterns:@[@1, @1, @1, @1,
-                      @1, @1, @1, @1,
-                      @1, @1, @0, @0,
-                      @0, @1, @0, @0,
-                      @0, @1, @1, @0,
-                      @0, @0, @1, @0,
-                      @0, @0, @1, @1,
-                      @0, @0, @0, @1,
-                      @1, @1, @1, @1]
-        outputGoals:@[@0, @0, @0, @0, @0, @1, @0, @0, @0, @0]];
-// 7
-[_krMLP addPatterns:@[@1, @0, @0, @0,
-                      @0, @0, @0, @0,
-                      @0, @1, @0, @0,
-                      @0, @0, @0, @0,
-                      @0, @0, @1, @0,
-                      @0, @0, @0, @0,
-                      @0, @0, @0, @1,
-                      @1, @1, @1, @1,
-                      @1, @1, @1, @1]
-        outputGoals:@[@0, @0, @0, @0, @0, @0, @1, @0, @0, @0]];
-//8
-[_krMLP addPatterns:@[@1, @1, @1, @1,
-                      @1, @1, @1, @1,
-                      @1, @1, @0, @0,
-                      @0, @1, @0, @0,
-                      @0, @1, @1, @0,
-                      @0, @0, @1, @0,
-                      @0, @0, @1, @1,
-                      @1, @1, @1, @1,
-                      @1, @1, @1, @1]
-        outputGoals:@[@0, @0, @0, @0, @0, @0, @0, @1, @0, @0]];
-// 9
-[_krMLP addPatterns:@[@1, @1, @1, @1,
-                      @1, @0, @0, @0,
-                      @0, @1, @0, @0,
-                      @0, @1, @0, @0,
-                      @0, @0, @1, @0,
-                      @0, @0, @1, @0,
-                      @0, @0, @0, @1,
-                      @1, @1, @1, @1,
-                      @1, @1, @1, @1]
-        outputGoals:@[@0, @0, @0, @0, @0, @0, @0, @0, @1, @0]];
-// 0
-[_krMLP addPatterns:@[@1, @1, @1, @1,
-                      @1, @1, @1, @1,
-                      @1, @1, @0, @0,
-                      @0, @0, @0, @0,
-                      @0, @1, @1, @0,
-                      @0, @0, @0, @0,
-                      @0, @0, @1, @1,
-                      @1, @1, @1, @1,
-                      @1, @1, @1, @1]
-        outputGoals:@[@0, @0, @0, @0, @0, @0, @0, @0, @0, @1]];
+#### Optimization Learning Methods
 
-__block typeof(_krMLP) _weakKRANN = _krMLP;
+Fixed inertial rate:
+``` objective-c
+[mlp setupOptimizationMethod:KRMLPOptimizationFixedInertia inertialRate:0.7f];    
+```
 
-// Traning completed
-[_krMLP setTrainingCompletion:^(BOOL success, NSDictionary *trainedInfo, NSInteger totalTimes){
-    if( success )
-    {
-        NSLog(@"Training done with total times : %i", totalTimes);
-        NSLog(@"TrainedInfo 1 : %@", trainedInfo);
-        
-        // Start in checking the network is correctly trained.
-        NSLog(@"======== Start in Verification ========");
-        [_weakKRANN setTrainingCompletion:^(BOOL success, NSDictionary *trainedInfo, NSInteger totalTimes){
-            NSLog(@"Training done with total times : %i", totalTimes);
-            NSLog(@"TrainedInfo 2 : %@", trainedInfo);
-        }];
-        
-        [_weakKRANN recoverNetwork];
-        // Verified number " 7 ", and it has some defects.
-        [_weakKRANN directOutputAtInputs:@[@1, @1, @1, @0,
-                                           @0, @0, @0, @0,
-                                           @0, @1, @0, @0,
-                                           @0, @0, @0, @0,
-                                           @0, @0, @1, @0,
-                                           @0, @0, @0, @0,
-                                           @0, @0, @0, @1,
-                                           @1, @1, @1, @1,
-                                           @1, @1, @1, @1]];
-        
-    }
-}];
-
-[_krMLP trainingByRandomSettings];
+QuickProp:
+``` objective-c
+[mlp setupOptimizationMethod:KRMLPOptimizationQuickProp];
 ```
 
 ## Version
 
-V2.1.4
+V2.2.0
 
 ## License
 
 MIT.
 
-## Remarks
+## Todolist
 
-1. Waiting for turning performance and using EDBD (includes QuickProp) method to enhance this algorithm.
-2. About the user guide, I have no time to write the user and technical guide in here. Maybe one day I take a long term vacations, the guide will be implemented.
+1. RProp.
+2. Mixes fixed inertia and QuickProp.
+3. EDBD.
+4. Protocol implementations.
