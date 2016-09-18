@@ -1,0 +1,558 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8E267BC31D70267D00D6B26E /* KRMLPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E267BC01D70267D00D6B26E /* KRMLPFetcher.m */; };
+		8E267BC41D70267D00D6B26E /* KRMLPPassed.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E267BC21D70267D00D6B26E /* KRMLPPassed.m */; };
+		8E267BCB1D753CBE00D6B26E /* KRMLPOptimization.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E267BCA1D753CBE00D6B26E /* KRMLPOptimization.m */; };
+		8E4DCD221D6A058400C7F4DB /* KRMLPNetworkOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E4DCD211D6A058400C7F4DB /* KRMLPNetworkOutput.m */; };
+		8E4DCD251D6A0CA000C7F4DB /* KRMLPTrainingOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E4DCD241D6A0CA000C7F4DB /* KRMLPTrainingOutput.m */; };
+		8E4DCD381D6A1B3300C7F4DB /* KRMLPLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E4DCD371D6A1B3300C7F4DB /* KRMLPLayer.m */; };
+		8E61E1ED1CD0FD6C00250819 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E61E1EC1CD0FD6C00250819 /* main.m */; };
+		8E61E1F01CD0FD6C00250819 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E61E1EF1CD0FD6C00250819 /* AppDelegate.m */; };
+		8E61E1F31CD0FD6C00250819 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E61E1F21CD0FD6C00250819 /* ViewController.m */; };
+		8E61E1F61CD0FD6C00250819 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E61E1F41CD0FD6C00250819 /* Main.storyboard */; };
+		8E61E1F81CD0FD6C00250819 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E61E1F71CD0FD6C00250819 /* Assets.xcassets */; };
+		8E61E1FB1CD0FD6C00250819 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E61E1F91CD0FD6C00250819 /* LaunchScreen.storyboard */; };
+		8E61E20E1CD1045200250819 /* KRMLPActivation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E61E2051CD1045200250819 /* KRMLPActivation.m */; };
+		8E61E20F1CD1045200250819 /* KRMathLib.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E61E20D1CD1045200250819 /* KRMathLib.m */; };
+		8E61E2121CD105AB00250819 /* KRMLP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E61E2111CD105AB00250819 /* KRMLP.m */; };
+		8E61E2161CD78EF000250819 /* KRMLPNet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E61E2151CD78EF000250819 /* KRMLPNet.m */; };
+		8E61E21C1CD78F5200250819 /* KRMLPHiddenNet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E61E21B1CD78F5200250819 /* KRMLPHiddenNet.m */; };
+		8E61E21F1CD78F6100250819 /* KRMLPOutputNet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E61E21E1CD78F6100250819 /* KRMLPOutputNet.m */; };
+		8E94C3C91D8E878600B475C6 /* KRMLPInertia.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E94C3C81D8E878600B475C6 /* KRMLPInertia.m */; };
+		8EA728811D16A115007F4EA9 /* KRMLPPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA728801D16A115007F4EA9 /* KRMLPPattern.m */; };
+		8EA7288B1D16A51C007F4EA9 /* KRMLPHiddenLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA7288A1D16A51C007F4EA9 /* KRMLPHiddenLayer.m */; };
+		8EA7288E1D16A57F007F4EA9 /* KRMLPOutputLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA7288D1D16A57F007F4EA9 /* KRMLPOutputLayer.m */; };
+		8EA728911D16A5C5007F4EA9 /* KRMLPInputLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA728901D16A5C5007F4EA9 /* KRMLPInputLayer.m */; };
+		8ED870D51D300F4600DE28FD /* KRMLPResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ED870D41D300F4600DE28FD /* KRMLPResult.m */; };
+		8ED870D81D32106700DE28FD /* KRMLPCost.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ED870D71D32106700DE28FD /* KRMLPCost.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8E267BBF1D70267D00D6B26E /* KRMLPFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPFetcher.h; sourceTree = "<group>"; };
+		8E267BC01D70267D00D6B26E /* KRMLPFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPFetcher.m; sourceTree = "<group>"; };
+		8E267BC11D70267D00D6B26E /* KRMLPPassed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPPassed.h; sourceTree = "<group>"; };
+		8E267BC21D70267D00D6B26E /* KRMLPPassed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPPassed.m; sourceTree = "<group>"; };
+		8E267BC91D753CBE00D6B26E /* KRMLPOptimization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPOptimization.h; sourceTree = "<group>"; };
+		8E267BCA1D753CBE00D6B26E /* KRMLPOptimization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPOptimization.m; sourceTree = "<group>"; };
+		8E4DCD201D6A058400C7F4DB /* KRMLPNetworkOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPNetworkOutput.h; sourceTree = "<group>"; };
+		8E4DCD211D6A058400C7F4DB /* KRMLPNetworkOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPNetworkOutput.m; sourceTree = "<group>"; };
+		8E4DCD231D6A0CA000C7F4DB /* KRMLPTrainingOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPTrainingOutput.h; sourceTree = "<group>"; };
+		8E4DCD241D6A0CA000C7F4DB /* KRMLPTrainingOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPTrainingOutput.m; sourceTree = "<group>"; };
+		8E4DCD361D6A1B3300C7F4DB /* KRMLPLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPLayer.h; sourceTree = "<group>"; };
+		8E4DCD371D6A1B3300C7F4DB /* KRMLPLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPLayer.m; sourceTree = "<group>"; };
+		8E61E1E81CD0FD6C00250819 /* KRMLP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KRMLP.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E61E1EC1CD0FD6C00250819 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8E61E1EE1CD0FD6C00250819 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		8E61E1EF1CD0FD6C00250819 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8E61E1F11CD0FD6C00250819 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		8E61E1F21CD0FD6C00250819 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		8E61E1F51CD0FD6C00250819 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8E61E1F71CD0FD6C00250819 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8E61E1FA1CD0FD6C00250819 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8E61E1FC1CD0FD6C00250819 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E61E2041CD1045200250819 /* KRMLPActivation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPActivation.h; sourceTree = "<group>"; };
+		8E61E2051CD1045200250819 /* KRMLPActivation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPActivation.m; sourceTree = "<group>"; };
+		8E61E20C1CD1045200250819 /* KRMathLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMathLib.h; sourceTree = "<group>"; };
+		8E61E20D1CD1045200250819 /* KRMathLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMathLib.m; sourceTree = "<group>"; };
+		8E61E2101CD105AB00250819 /* KRMLP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLP.h; sourceTree = "<group>"; };
+		8E61E2111CD105AB00250819 /* KRMLP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLP.m; sourceTree = "<group>"; };
+		8E61E2141CD78EF000250819 /* KRMLPNet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPNet.h; sourceTree = "<group>"; };
+		8E61E2151CD78EF000250819 /* KRMLPNet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPNet.m; sourceTree = "<group>"; };
+		8E61E21A1CD78F5200250819 /* KRMLPHiddenNet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPHiddenNet.h; sourceTree = "<group>"; };
+		8E61E21B1CD78F5200250819 /* KRMLPHiddenNet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPHiddenNet.m; sourceTree = "<group>"; };
+		8E61E21D1CD78F6100250819 /* KRMLPOutputNet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPOutputNet.h; sourceTree = "<group>"; };
+		8E61E21E1CD78F6100250819 /* KRMLPOutputNet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPOutputNet.m; sourceTree = "<group>"; };
+		8E94C3C71D8E878600B475C6 /* KRMLPInertia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPInertia.h; sourceTree = "<group>"; };
+		8E94C3C81D8E878600B475C6 /* KRMLPInertia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPInertia.m; sourceTree = "<group>"; };
+		8EA7287F1D16A115007F4EA9 /* KRMLPPattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPPattern.h; sourceTree = "<group>"; };
+		8EA728801D16A115007F4EA9 /* KRMLPPattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPPattern.m; sourceTree = "<group>"; };
+		8EA728891D16A51C007F4EA9 /* KRMLPHiddenLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPHiddenLayer.h; sourceTree = "<group>"; };
+		8EA7288A1D16A51C007F4EA9 /* KRMLPHiddenLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPHiddenLayer.m; sourceTree = "<group>"; };
+		8EA7288C1D16A57F007F4EA9 /* KRMLPOutputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPOutputLayer.h; sourceTree = "<group>"; };
+		8EA7288D1D16A57F007F4EA9 /* KRMLPOutputLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPOutputLayer.m; sourceTree = "<group>"; };
+		8EA7288F1D16A5C5007F4EA9 /* KRMLPInputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPInputLayer.h; sourceTree = "<group>"; };
+		8EA728901D16A5C5007F4EA9 /* KRMLPInputLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPInputLayer.m; sourceTree = "<group>"; };
+		8ED870D31D300F4600DE28FD /* KRMLPResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPResult.h; sourceTree = "<group>"; };
+		8ED870D41D300F4600DE28FD /* KRMLPResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPResult.m; sourceTree = "<group>"; };
+		8ED870D61D32106700DE28FD /* KRMLPCost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KRMLPCost.h; sourceTree = "<group>"; };
+		8ED870D71D32106700DE28FD /* KRMLPCost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KRMLPCost.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8E61E1E51CD0FD6C00250819 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8E267BBC1D6EFAE800D6B26E /* Optimizations */ = {
+			isa = PBXGroup;
+			children = (
+				8E94C3C61D8E876D00B475C6 /* Inertia */,
+				8E267BBD1D6EFB5200D6B26E /* EDBD */,
+				8E267BC91D753CBE00D6B26E /* KRMLPOptimization.h */,
+				8E267BCA1D753CBE00D6B26E /* KRMLPOptimization.m */,
+			);
+			path = Optimizations;
+			sourceTree = "<group>";
+		};
+		8E267BBD1D6EFB5200D6B26E /* EDBD */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = EDBD;
+			sourceTree = "<group>";
+		};
+		8E61E1DF1CD0FD6C00250819 = {
+			isa = PBXGroup;
+			children = (
+				8E61E2021CD1045200250819 /* ML */,
+				8E61E1EA1CD0FD6C00250819 /* KRMLP */,
+				8E61E1E91CD0FD6C00250819 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8E61E1E91CD0FD6C00250819 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8E61E1E81CD0FD6C00250819 /* KRMLP.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8E61E1EA1CD0FD6C00250819 /* KRMLP */ = {
+			isa = PBXGroup;
+			children = (
+				8E61E1EE1CD0FD6C00250819 /* AppDelegate.h */,
+				8E61E1EF1CD0FD6C00250819 /* AppDelegate.m */,
+				8E61E1F11CD0FD6C00250819 /* ViewController.h */,
+				8E61E1F21CD0FD6C00250819 /* ViewController.m */,
+				8E61E1F41CD0FD6C00250819 /* Main.storyboard */,
+				8E61E1F71CD0FD6C00250819 /* Assets.xcassets */,
+				8E61E1F91CD0FD6C00250819 /* LaunchScreen.storyboard */,
+				8E61E1FC1CD0FD6C00250819 /* Info.plist */,
+				8E61E1EB1CD0FD6C00250819 /* Supporting Files */,
+			);
+			path = KRMLP;
+			sourceTree = "<group>";
+		};
+		8E61E1EB1CD0FD6C00250819 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8E61E1EC1CD0FD6C00250819 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8E61E2021CD1045200250819 /* ML */ = {
+			isa = PBXGroup;
+			children = (
+				8E267BBC1D6EFAE800D6B26E /* Optimizations */,
+				8E61E2031CD1045200250819 /* Activations */,
+				8E61E2061CD1045200250819 /* Layers */,
+				8E61E2081CD1045200250819 /* Nets */,
+				8EA7287E1D16A107007F4EA9 /* Patterns */,
+				8ED870D21D300F3900DE28FD /* Outputs */,
+				8E61E2091CD1045200250819 /* Trained */,
+				8E61E20A1CD1045200250819 /* Utilities */,
+				8E61E2101CD105AB00250819 /* KRMLP.h */,
+				8E61E2111CD105AB00250819 /* KRMLP.m */,
+			);
+			path = ML;
+			sourceTree = "<group>";
+		};
+		8E61E2031CD1045200250819 /* Activations */ = {
+			isa = PBXGroup;
+			children = (
+				8E61E2041CD1045200250819 /* KRMLPActivation.h */,
+				8E61E2051CD1045200250819 /* KRMLPActivation.m */,
+			);
+			path = Activations;
+			sourceTree = "<group>";
+		};
+		8E61E2061CD1045200250819 /* Layers */ = {
+			isa = PBXGroup;
+			children = (
+				8E4DCD361D6A1B3300C7F4DB /* KRMLPLayer.h */,
+				8E4DCD371D6A1B3300C7F4DB /* KRMLPLayer.m */,
+				8EA728881D16A51C007F4EA9 /* KRMLPHiddenLayer */,
+				8EA728831D16A4D7007F4EA9 /* KRMLPInputLayer */,
+				8EA728841D16A4D7007F4EA9 /* KRMLPOutputLayer */,
+			);
+			path = Layers;
+			sourceTree = "<group>";
+		};
+		8E61E2081CD1045200250819 /* Nets */ = {
+			isa = PBXGroup;
+			children = (
+				8E61E2141CD78EF000250819 /* KRMLPNet.h */,
+				8E61E2151CD78EF000250819 /* KRMLPNet.m */,
+				8E61E2171CD78F3E00250819 /* KRMLPHiddenNet */,
+				8E61E2181CD78F3E00250819 /* KRMLPOutputNet */,
+			);
+			path = Nets;
+			sourceTree = "<group>";
+		};
+		8E61E2091CD1045200250819 /* Trained */ = {
+			isa = PBXGroup;
+			children = (
+				8E267BBF1D70267D00D6B26E /* KRMLPFetcher.h */,
+				8E267BC01D70267D00D6B26E /* KRMLPFetcher.m */,
+				8E267BC11D70267D00D6B26E /* KRMLPPassed.h */,
+				8E267BC21D70267D00D6B26E /* KRMLPPassed.m */,
+			);
+			path = Trained;
+			sourceTree = "<group>";
+		};
+		8E61E20A1CD1045200250819 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				8E61E20B1CD1045200250819 /* KRMathLib */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		8E61E20B1CD1045200250819 /* KRMathLib */ = {
+			isa = PBXGroup;
+			children = (
+				8E61E20C1CD1045200250819 /* KRMathLib.h */,
+				8E61E20D1CD1045200250819 /* KRMathLib.m */,
+			);
+			path = KRMathLib;
+			sourceTree = "<group>";
+		};
+		8E61E2171CD78F3E00250819 /* KRMLPHiddenNet */ = {
+			isa = PBXGroup;
+			children = (
+				8E61E21A1CD78F5200250819 /* KRMLPHiddenNet.h */,
+				8E61E21B1CD78F5200250819 /* KRMLPHiddenNet.m */,
+			);
+			path = KRMLPHiddenNet;
+			sourceTree = "<group>";
+		};
+		8E61E2181CD78F3E00250819 /* KRMLPOutputNet */ = {
+			isa = PBXGroup;
+			children = (
+				8E61E21D1CD78F6100250819 /* KRMLPOutputNet.h */,
+				8E61E21E1CD78F6100250819 /* KRMLPOutputNet.m */,
+			);
+			path = KRMLPOutputNet;
+			sourceTree = "<group>";
+		};
+		8E94C3C61D8E876D00B475C6 /* Inertia */ = {
+			isa = PBXGroup;
+			children = (
+				8E94C3C71D8E878600B475C6 /* KRMLPInertia.h */,
+				8E94C3C81D8E878600B475C6 /* KRMLPInertia.m */,
+			);
+			path = Inertia;
+			sourceTree = "<group>";
+		};
+		8EA7287E1D16A107007F4EA9 /* Patterns */ = {
+			isa = PBXGroup;
+			children = (
+				8EA7287F1D16A115007F4EA9 /* KRMLPPattern.h */,
+				8EA728801D16A115007F4EA9 /* KRMLPPattern.m */,
+			);
+			path = Patterns;
+			sourceTree = "<group>";
+		};
+		8EA728831D16A4D7007F4EA9 /* KRMLPInputLayer */ = {
+			isa = PBXGroup;
+			children = (
+				8EA7288F1D16A5C5007F4EA9 /* KRMLPInputLayer.h */,
+				8EA728901D16A5C5007F4EA9 /* KRMLPInputLayer.m */,
+			);
+			path = KRMLPInputLayer;
+			sourceTree = "<group>";
+		};
+		8EA728841D16A4D7007F4EA9 /* KRMLPOutputLayer */ = {
+			isa = PBXGroup;
+			children = (
+				8EA7288C1D16A57F007F4EA9 /* KRMLPOutputLayer.h */,
+				8EA7288D1D16A57F007F4EA9 /* KRMLPOutputLayer.m */,
+				8ED870D61D32106700DE28FD /* KRMLPCost.h */,
+				8ED870D71D32106700DE28FD /* KRMLPCost.m */,
+			);
+			path = KRMLPOutputLayer;
+			sourceTree = "<group>";
+		};
+		8EA728881D16A51C007F4EA9 /* KRMLPHiddenLayer */ = {
+			isa = PBXGroup;
+			children = (
+				8EA728891D16A51C007F4EA9 /* KRMLPHiddenLayer.h */,
+				8EA7288A1D16A51C007F4EA9 /* KRMLPHiddenLayer.m */,
+			);
+			path = KRMLPHiddenLayer;
+			sourceTree = "<group>";
+		};
+		8ED870D21D300F3900DE28FD /* Outputs */ = {
+			isa = PBXGroup;
+			children = (
+				8ED870D31D300F4600DE28FD /* KRMLPResult.h */,
+				8ED870D41D300F4600DE28FD /* KRMLPResult.m */,
+				8E4DCD201D6A058400C7F4DB /* KRMLPNetworkOutput.h */,
+				8E4DCD211D6A058400C7F4DB /* KRMLPNetworkOutput.m */,
+				8E4DCD231D6A0CA000C7F4DB /* KRMLPTrainingOutput.h */,
+				8E4DCD241D6A0CA000C7F4DB /* KRMLPTrainingOutput.m */,
+			);
+			path = Outputs;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8E61E1E71CD0FD6C00250819 /* KRMLP */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8E61E1FF1CD0FD6C00250819 /* Build configuration list for PBXNativeTarget "KRMLP" */;
+			buildPhases = (
+				8E61E1E41CD0FD6C00250819 /* Sources */,
+				8E61E1E51CD0FD6C00250819 /* Frameworks */,
+				8E61E1E61CD0FD6C00250819 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KRMLP;
+			productName = KRMLP;
+			productReference = 8E61E1E81CD0FD6C00250819 /* KRMLP.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8E61E1E01CD0FD6C00250819 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Kalvar Lin";
+				TargetAttributes = {
+					8E61E1E71CD0FD6C00250819 = {
+						CreatedOnToolsVersion = 7.2;
+					};
+				};
+			};
+			buildConfigurationList = 8E61E1E31CD0FD6C00250819 /* Build configuration list for PBXProject "KRMLP" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8E61E1DF1CD0FD6C00250819;
+			productRefGroup = 8E61E1E91CD0FD6C00250819 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8E61E1E71CD0FD6C00250819 /* KRMLP */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8E61E1E61CD0FD6C00250819 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8E61E1FB1CD0FD6C00250819 /* LaunchScreen.storyboard in Resources */,
+				8E61E1F81CD0FD6C00250819 /* Assets.xcassets in Resources */,
+				8E61E1F61CD0FD6C00250819 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8E61E1E41CD0FD6C00250819 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EA7288B1D16A51C007F4EA9 /* KRMLPHiddenLayer.m in Sources */,
+				8EA728811D16A115007F4EA9 /* KRMLPPattern.m in Sources */,
+				8E61E2121CD105AB00250819 /* KRMLP.m in Sources */,
+				8EA7288E1D16A57F007F4EA9 /* KRMLPOutputLayer.m in Sources */,
+				8E4DCD221D6A058400C7F4DB /* KRMLPNetworkOutput.m in Sources */,
+				8E61E21F1CD78F6100250819 /* KRMLPOutputNet.m in Sources */,
+				8E267BC41D70267D00D6B26E /* KRMLPPassed.m in Sources */,
+				8E61E2161CD78EF000250819 /* KRMLPNet.m in Sources */,
+				8ED870D51D300F4600DE28FD /* KRMLPResult.m in Sources */,
+				8E4DCD381D6A1B3300C7F4DB /* KRMLPLayer.m in Sources */,
+				8E94C3C91D8E878600B475C6 /* KRMLPInertia.m in Sources */,
+				8E61E1F31CD0FD6C00250819 /* ViewController.m in Sources */,
+				8ED870D81D32106700DE28FD /* KRMLPCost.m in Sources */,
+				8E267BC31D70267D00D6B26E /* KRMLPFetcher.m in Sources */,
+				8E61E1F01CD0FD6C00250819 /* AppDelegate.m in Sources */,
+				8EA728911D16A5C5007F4EA9 /* KRMLPInputLayer.m in Sources */,
+				8E61E21C1CD78F5200250819 /* KRMLPHiddenNet.m in Sources */,
+				8E61E1ED1CD0FD6C00250819 /* main.m in Sources */,
+				8E267BCB1D753CBE00D6B26E /* KRMLPOptimization.m in Sources */,
+				8E61E20E1CD1045200250819 /* KRMLPActivation.m in Sources */,
+				8E61E20F1CD1045200250819 /* KRMathLib.m in Sources */,
+				8E4DCD251D6A0CA000C7F4DB /* KRMLPTrainingOutput.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8E61E1F41CD0FD6C00250819 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8E61E1F51CD0FD6C00250819 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8E61E1F91CD0FD6C00250819 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8E61E1FA1CD0FD6C00250819 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8E61E1FD1CD0FD6C00250819 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8E61E1FE1CD0FD6C00250819 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8E61E2001CD0FD6C00250819 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = KRMLP/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kalvar.ml.mlp.KRMLP;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8E61E2011CD0FD6C00250819 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = KRMLP/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kalvar.ml.mlp.KRMLP;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8E61E1E31CD0FD6C00250819 /* Build configuration list for PBXProject "KRMLP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8E61E1FD1CD0FD6C00250819 /* Debug */,
+				8E61E1FE1CD0FD6C00250819 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8E61E1FF1CD0FD6C00250819 /* Build configuration list for PBXNativeTarget "KRMLP" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8E61E2001CD0FD6C00250819 /* Debug */,
+				8E61E2011CD0FD6C00250819 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8E61E1E01CD0FD6C00250819 /* Project object */;
+}
