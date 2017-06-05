@@ -6,8 +6,8 @@ Machine Learning (マシンラーニング) in this project, it implemented mult
 #### Podfile
 
 ```ruby
-platform :ios, '7.0'
-pod "KRMLP", "~> 2.2.0"
+platform :ios, '9.0'
+pod "KRMLP", "~> 2.2.1"
 ```
 
 ## How to use
@@ -275,7 +275,7 @@ QuickProp:
 
 ## Version
 
-V2.2.0
+V2.2.1
 
 ## License
 
@@ -283,7 +283,7 @@ MIT.
 
 ## Todolist
 
-1. RProp.
-2. Mixes fixed inertia and QuickProp.
+1. RMSProp.
+2. Adam.
 3. EDBD.
-4. Protocol implementations.
+4. Nadam.

@@ -39,7 +39,7 @@
 
 - (double)deltaWeightAtIndex:(NSInteger)weightIndex net:(KRMLPNet *)net mappedOutput:(double)mappedOutput learningRate:(double)learningRate
 {
-    double deltaValue = learningRate * net.deltaValue * mappedOutput;
+    double deltaWeight = learningRate * net.deltaValue * mappedOutput;
     if( net.updatedTimes > 0 )
     {
         double lastDeltaWeight = [[net.lastDeltaWeights objectAtIndex:weightIndex] doubleValue];
@@ -71,14 +71,14 @@
                 {
                     dynamicLearningRate = 0.0f;
                 }
-                deltaValue += dynamicLearningRate * lastDeltaWeight;
+                deltaWeight += dynamicLearningRate * lastDeltaWeight;
             }
                 break;
             case KRMLPInertialRProp: // Todolist, the RProp is better than QuickProp, since QuickProp has overfitting problem.
             case KRMLPInertialFixedRate:
             default:
                 // delta w(ji) = L * delta value * y + fixed inertial rate * last delta w(ji)
-                deltaValue += _inertialRate * lastDeltaWeight;
+                deltaWeight += _inertialRate * lastDeltaWeight;
                 break;
         }
     }
@@ -86,9 +86,9 @@
     {
         // 是初次更新權重的狀態
         // 直接照 Backpropagation 原始未套入優化公式的方式去做即可
-        // deltaValue = learningRate * net.deltaValue * mappedOutput;
+        // deltaWeight = learningRate * net.deltaValue * mappedOutput;
     }
-    return deltaValue;
+    return deltaWeight;
 }
 
 @end
