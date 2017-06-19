@@ -47,7 +47,7 @@
         {
             case KRMLPInertialQuickProp:
             {
-                // Grandient Rate of QuickProp = -(net.deltaValue * mappedOutput)
+                // Grandient Rate of QuickProp = net.deltaValue * mappedOutput
                 // Fetchs last grandient rate (上次的梯度下降率):
                 double lastGradientValue   = [[net.lastGradients objectAtIndex:weightIndex] doubleValue];
                 

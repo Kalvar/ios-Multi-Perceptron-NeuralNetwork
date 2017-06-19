@@ -70,7 +70,7 @@
     // Formula : SUM(error(k) * w(jk)) * f'(netOutput), the error(k) is delta(k).
     [_nets enumerateObjectsUsingBlock:^(KRMLPHiddenNet * _Nonnull hiddenNet, NSUInteger netIndex, BOOL * _Nonnull stop) {
         __block double deltaValue = 0.0f;
-        // 上一層的 Nets
+        // 上一層的 Nets (是從輸出層逆回來看的倒傳遞順序，所以是上一層)
         [lastNets enumerateObjectsUsingBlock:^(KRMLPNet * _Nonnull lastNet, NSUInteger lastIndex, BOOL * _Nonnull stop) {
             // 取出該 Net 的 Delta Value (誤差修正量) 來計算隱藏層的權重和偏權修正量
             // SUM(對應到此 Hidden Net 的所有權重值各自乘上對應的上一層 Nets 的 Delta Value)

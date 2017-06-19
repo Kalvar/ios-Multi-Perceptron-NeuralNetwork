@@ -257,7 +257,7 @@
         double mappedOutput = [[layerOutputs objectAtIndex:idx] doubleValue];
         
         // 記錄當前的權重梯度下降量
-        double gradientWeight = -(strongSelf.deltaValue * mappedOutput);
+        double gradientWeight = strongSelf.deltaValue * mappedOutput;
         [strongSelf.gradients addObject:@(gradientWeight)];
         
         // 運算權重修正量
