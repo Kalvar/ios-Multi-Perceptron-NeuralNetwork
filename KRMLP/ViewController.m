@@ -172,20 +172,20 @@
     
     // MLP
     KRMLP *mlp            = [[KRMLP alloc] init];
-    mlp.maxIteration      = 30;
+    mlp.maxIteration      = 500;
     mlp.convergenceError  = 0.001f;
     mlp.networkActivation = KRMLPNetActivationSigmoid;
     
     mlp.initialMaxWeight  = 0.5f;
     mlp.initialMinWeight  = -0.5f;
-    mlp.initialOptimize   = YES;
+    //mlp.initialOptimize   = YES;
     
     //[mlp recoverForKey:@"A1"];
     [mlp addPatternsFromArray:patterns];
     
-    [mlp setupOptimizationMethod:KRMLPOptimizationFixedInertia inertialRate:0.7f];
+    [mlp setupOptimizationMethod:KRMLPOptimizationFixedInertia inertialRate:0.5f];
     
-    KRMLPHiddenLayer *hiddenLayer1 = [mlp createHiddenLayerWithAutomaticSetting]; // [mlp createHiddenLayerWithNetCount:18 inputCount:36];
+    KRMLPHiddenLayer *hiddenLayer1 = [mlp createHiddenLayerWithAutomaticSetting]; //[mlp createHiddenLayerWithNetCount:18 inputCount:36];
     [mlp addHiddenLayer:hiddenLayer1];
     
     KRMLPHiddenLayer *hiddenLayer2 = [mlp createHiddenLayerWithAutomaticSetting]; //[mlp createHiddenLayerDependsOnHiddenLayer:hiddenLayer1 netCount:18];

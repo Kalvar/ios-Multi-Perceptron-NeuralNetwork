@@ -148,7 +148,7 @@
         }
     }
     
-    if( self.cost.rmse <= self.convergenceError || self.currentIteration >= self.maxIteration )
+    if( self.cost.mse <= self.convergenceError || self.currentIteration >= self.maxIteration )
     {
         if( self.networkOutputBlock )
         {

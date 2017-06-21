@@ -232,8 +232,8 @@
 #pragma mark - Updating
 - (double)newBiasWithLearningRate:(double)learningRate
 {
-    // Formula of Bias : new b(j) = -L * Error(k) + b(j)
-    return ((-learningRate) * _deltaValue) + _bias;
+    // Formula of Bias : new b(j) = b(j) + [-L * -delta(j)]
+    return _bias + ((learningRate) * _deltaValue);
 }
 
 - (NSArray <NSNumber *> *)newWeightsWithLayerOutputs:(NSArray <NSNumber *> *)layerOutputs learningRate:(double)learningRate
@@ -249,9 +249,9 @@
     [_weights enumerateObjectsUsingBlock:^(NSNumber * _Nonnull weight, NSUInteger idx, BOOL * _Nonnull stop) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         // Formula of Weight :
-        //   new w(jk)       = -L * delta value * Output(j) + w(jk)
-        //                   = -L * ( d(j) - y(j) ) * -f'( y(j) ) * Output(j) + w(jk)
-        //   負號相消, 得最終式 = L * Error(k) * Output(j) + w(jk), 其中 Error(k) = delta values
+        //   new w(jk)       = w(jk) + [-L * -delta value * output(j)]
+        //                   = w(jk) + [-L * -( d(j) - y(j) ) * f'( y(j) ) * output(j)]
+        //   負號相消, 得最終式 = w(jk) + [L * delta(k) * output(j)]
         
         // 先取出該權重對應的上一層 Hidden Layer / Input Layer Net Output
         double mappedOutput = [[layerOutputs objectAtIndex:idx] doubleValue];
@@ -262,7 +262,7 @@
         
         // 運算權重修正量
         double deltaWeight  = [strongSelf.optimization deltaWeightAtIndex:idx net:strongSelf mappedOutput:mappedOutput learningRate:learningRate];
-        double newWeight    = deltaWeight + [weight doubleValue];
+        double newWeight    = [weight doubleValue] + deltaWeight;
         [newWeights addObject:@(newWeight)];
         
         // 記錄當前的權重修正量
