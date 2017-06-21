@@ -7,7 +7,7 @@ Machine Learning (マシンラーニング) in this project, it implemented mult
 
 ```ruby
 platform :ios, '9.0'
-pod "KRMLP", "~> 2.2.1"
+pod "KRMLP", "~> 2.2.2"
 ```
 
 ## How to use
@@ -185,7 +185,6 @@ mlp.networkActivation = KRMLPNetActivationSigmoid;
 
 mlp.initialMaxWeight  = 0.5f;
 mlp.initialMinWeight  = -0.5f;
-mlp.initialOptimize   = YES;
 
 [mlp addPatternsFromArray:patterns];
 [mlp setupOptimizationMethod:KRMLPOptimizationFixedInertia inertialRate:0.7f];
@@ -275,7 +274,7 @@ QuickProp:
 
 ## Version
 
-V2.2.1
+V2.2.2
 
 ## License
 
@@ -285,5 +284,4 @@ MIT.
 
 1. RMSProp.
 2. Adam.
-3. EDBD.
-4. Nadam.
+3. Nadam.
