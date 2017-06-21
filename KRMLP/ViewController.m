@@ -188,11 +188,11 @@
     KRMLPHiddenLayer *hiddenLayer1 = [mlp createHiddenLayerWithAutomaticSetting]; //[mlp createHiddenLayerWithNetCount:18 inputCount:36];
     [mlp addHiddenLayer:hiddenLayer1];
     
-    KRMLPHiddenLayer *hiddenLayer2 = [mlp createHiddenLayerWithAutomaticSetting]; //[mlp createHiddenLayerDependsOnHiddenLayer:hiddenLayer1 netCount:18];
-    [mlp addHiddenLayer:hiddenLayer2];
-
-    KRMLPHiddenLayer *hiddenLayer3 = [mlp createHiddenLayerWithAutomaticSetting]; //[mlp createHiddenLayerDependsOnHiddenLayer:hiddenLayer2 netCount:16];
-    [mlp addHiddenLayer:hiddenLayer3];
+//    KRMLPHiddenLayer *hiddenLayer2 = [mlp createHiddenLayerWithAutomaticSetting]; //[mlp createHiddenLayerDependsOnHiddenLayer:hiddenLayer1 netCount:18];
+//    [mlp addHiddenLayer:hiddenLayer2];
+//
+//    KRMLPHiddenLayer *hiddenLayer3 = [mlp createHiddenLayerWithAutomaticSetting]; //[mlp createHiddenLayerDependsOnHiddenLayer:hiddenLayer2 netCount:16];
+//    [mlp addHiddenLayer:hiddenLayer3];
     
     [mlp setupOutputLayer];
     
