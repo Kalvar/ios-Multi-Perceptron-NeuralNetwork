@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "KRMLP"
-  s.version      = "2.2.2"
+  s.version      = "2.2.3"
   s.summary      = "Deep Learning for multi-layer perceptrons neural network (MLP)."
   s.description  = <<-DESC
                    Machine Learning (マシンラーニング) in this project, it implemented multi-layer perceptrons neural network (ニューラルネットワーク) and Back Propagation Neural Network (BPN). It designed unlimited hidden layers to do the training tasks. This network can be used in products recommendation (おすすめの商品), user behavior analysis (ユーザーの行動分析), data mining (データマイニング) and data analysis (データ分析).

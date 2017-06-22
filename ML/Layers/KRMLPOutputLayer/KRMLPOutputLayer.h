@@ -19,7 +19,7 @@
 - (void)addNetsFromArray:(NSArray <KRMLPOutputNet *> *)layerNets;
 - (NSArray <NSNumber *> *)directOutputsWithInputs:(NSArray <NSNumber *> *)inputs;
 - (NSArray <NSNumber *> *)layerOutputsWithInputs:(NSArray <NSNumber *> *)inputs;
-- (double)calculateCostAndDeltaWithTargets:(NSArray <NSNumber *> *)targets;
+- (void)calculateDeltasWithTargets:(NSArray <NSNumber *> *)targets;
 - (void)updateWithHiddenLayerOutputs:(NSArray <NSNumber *> *)layerOutputs learningRate:(double)learningRate;
 
 @end

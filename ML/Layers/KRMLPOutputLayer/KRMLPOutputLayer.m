@@ -71,23 +71,19 @@
 
 // 計算修正 Weights 與 Biases 用的 Delta Values 和當前 Pattern 的 Cost Value (網路輸出誤差值) for Cost Function.
 // Returns the cost function value of this pattern.
-- (double)calculateCostAndDeltaWithTargets:(NSArray <NSNumber *> *)targets
+- (void)calculateDeltasWithTargets:(NSArray <NSNumber *> *)targets
 {
     __weak typeof(self) weakSelf = self;
-    __block double costValue     = 0.0f;
     [_nets enumerateObjectsUsingBlock:^(KRMLPOutputNet * _Nonnull outputNet, NSUInteger idx, BOOL * _Nonnull stop) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         double targetValue    = [[targets objectAtIndex:idx] doubleValue];
         double outputValue    = [[strongSelf.outputs objectAtIndex:idx] doubleValue];
         double outputError    = targetValue - outputValue; // d(j) - y(j) = d(j) - f(net(j))
-        // 計算 MSE, RMSE 共同使用的總和誤差值 : SUM(error^2)
-        costValue            += ( outputError * outputError );
         // a is Partial Derivative simple.
         // Delta Value 是由 a(E)/a(wij) = ( d(j) - f(net(j)) ) * -f'(net(j)) = ( d(j) - y(j) ) * -f'( y(j) )
         // Output Net(j) 的 Delta 輸出誤差由於後續修正權重公式的關係, 會將負號消去, 故這裡先直接將負號消去: ( d(j) - y(j) ) * f'( y(j) )
         outputNet.deltaValue  = ( outputError * outputNet.outputPartialDerivative );
     }];
-    return costValue;
 }
 
 // Updating the weights and biases with last hidden layer outputs.

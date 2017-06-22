@@ -7,7 +7,7 @@ Machine Learning (マシンラーニング) in this project, it implemented mult
 
 ```ruby
 platform :ios, '9.0'
-pod "KRMLP", "~> 2.2.2"
+pod "KRMLP", "~> 2.2.3"
 ```
 
 ## How to use
@@ -274,7 +274,7 @@ QuickProp:
 
 ## Version
 
-V2.2.2
+V2.2.3
 
 ## License
 

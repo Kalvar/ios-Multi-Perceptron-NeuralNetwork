@@ -43,9 +43,8 @@
 
 - (void)setupCostFunction
 {
-    KRMLPCost *cost    = self.cost;
-    cost.patternsCount = self.patternsCount;
-    cost.outputsCount  = self.outputNetsCount;
+    KRMLPCost *cost = self.cost;
+    [cost removeRecords];
 }
 
 - (void)initializeSettings
@@ -95,8 +94,8 @@
     
     // 多分類的 output layer to hidden layer 跟 hidden layer to hidden layer / input layer 的 delta value (誤差值) 算法都一樣。
     // Recording cost value, btw, the delta-values of output-layer-nets are recorded in the output-nets self (net.deltaValue).
-    KRMLPCost *cost = self.cost;
-    cost.costValue  = [outputLayer calculateCostAndDeltaWithTargets:targets];
+    [outputLayer calculateDeltasWithTargets:targets];
+    [self.cost addOutputs:outputLayer.outputs targets:targets];
     
     // Reversing and looping hiddenLayers to start in calculating the delta values from output-layer to hidden layers (that includes hidden layer to hidden layer).
     // lastDeltas the initial value is delta-values of output-nets, the delta-value comes from net.deltaValue.
@@ -132,6 +131,7 @@
 
 - (void)iterationTraining
 {
+    [self.cost removeRecords];
     self.currentIteration += 1;
     
     // The self.patterns is getter of inputLayer.nets.
